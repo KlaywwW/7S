@@ -7,10 +7,12 @@ import com.example.check.service.DepartmentServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,18 +26,27 @@ public class DepController {
 
     private String fileRootPath = "D:\\7Simages\\";
 
+//    , @RequestParam("file") MultipartFile[] files
     @PostMapping("/addDeduct")
-    public String addDeduct(Deduct deduct, @RequestParam("file") MultipartFile[] files) {
+    public String addDeduct(Deduct deduct,MultipartRequest request,Integer num) {
+        System.err.println(num+"=============================");
+        List<MultipartFile> files=new ArrayList<MultipartFile>();
+        for (int i=0;i<num;i++){
+            System.err.println(request.getFile("file"+i).getOriginalFilename()+"=============================");
+            /*     System.err.println(request.getFile("image"+i)+"=============================");*/
+            files.add(request.getFile("file"+i));
+        }
+        System.err.println(files.size()+"=============================");
 
         System.out.println(deduct.toString());
-        System.out.println(files.length);
-
+        System.out.println(files.size());
+//
         int res = checkService.addDeduct(deduct);
-
+//
         int imgres = 0;
         String filePath = "";
         // 多文件上传
-        if (files.length > 0) {
+        if (files.size() > 0) {
             for (MultipartFile file : files) {
                 // 上传简单文件名
                 String filename = file.getOriginalFilename();

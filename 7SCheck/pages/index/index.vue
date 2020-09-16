@@ -77,7 +77,7 @@
 								<view 
 								style="position: absolute;left: 75px;bottom: 70px;width: 20px;height: 21px; color: white;background-color: gray; font-size: 20px;"
 								class="cuIcon-close"
-								@click="delImg(index)">
+								@click="delImg(s)">
 								
 								</view>
 							
@@ -117,7 +117,8 @@
 				showImageList:false,
 				index:null,
 				images:[],
-				url:'http://192.168.123.86:8088',
+				// url:'http://192.168.123.86:8088',
+				url:'http://192.168.2.107:8088',
 				totalScore:0
 
 			}
@@ -249,6 +250,7 @@
 				// }
 			},
 			delImg(index){
+				console.log(index);
 				this.images.splice(index, 1);
 			},
 			// touchstart(index) {
@@ -315,7 +317,7 @@
 				let imgs=[]
 				for(var i=0; i<this.images.length;i++){
 					imgs.push({
-						name:'file',
+						name:'file'+i,
 						uri:this.images[i]
 					})
 				}
@@ -329,7 +331,8 @@
 						minusScore:that.minusScore,
 						name:that.checkName,
 						reason:that.reason,
-						itemId:that.checkItems[that.index].id
+						itemId:that.checkItems[that.index].id,
+						num:imgs.length
 					},
 					success:function(res){
 						console.log(res);
