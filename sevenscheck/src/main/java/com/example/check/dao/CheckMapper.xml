@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.check.dao.CheckMapper">
+    <select id="getAllItems" resultType="com.example.check.pojo.Checkitems">
+        SELECT id,item,score,depId,depSecendId FROM checkitems WHERE depId=#{depId} and depSecendId=#{depSecendId}
+    </select>
+
+    <insert id="addDeduct" parameterType="com.example.check.pojo.Deduct">
+        INSERT INTO deduct VALUES (NULL ,#{itemId},#{reason},#{minusScore},#{name},#{time})
+    </insert>
+
+    <insert id="addImages" parameterType="com.example.check.pojo.Imagelist">
+        INSERT INTO imagelist VALUES (NULL ,#{imgName},#{imgPath},#{deductId})
+    </insert>
+
+    <select id="getNewId" resultType="integer">
+        SELECT `id` FROM deduct ORDER BY `id` DESC LIMIT 0,1
+    </select>
+</mapper>

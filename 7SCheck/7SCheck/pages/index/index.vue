@@ -1,0 +1,368 @@
+<template>
+	<view>
+		<view class="cu-form-group margin-sm">
+			<view class="title">稽查人員</view>
+			<input name="input" v-model="checkName"></input>
+		</view>
+		<view class="cu-form-group margin-sm">
+			<view class="title">部門</view>
+			<picker mode="selector" :range="department" :value="depIndex" :range-key="'depName'" @change="selectDep">
+				<view class="picker">
+					{{depIndex>-1?department[depIndex].depName:'請選擇部門'}}
+				</view>
+			</picker>
+		</view>
+		<view class="cu-form-group margin-sm" v-show="showClasses">
+			<view class="title">班號</view>
+			<picker mode="selector" :range="classes" :value="classIndex" :range-key="'depSecendName'" @change="selectClass">
+				<view class="picker">
+					{{classIndex>-1?classes[classIndex].depSecendName:'請選擇班號'}}
+				</view>
+			</picker>
+		</view>
+		<view style="background-color: #ffffff;padding: 1upx 30upx;">
+			<view class="">
+				<u-table>
+					<u-tr class="u-tr">
+						<u-th class="u-th" width="15%">序號</u-th>
+						<u-th class="u-th">項目</u-th>
+						<u-th class="u-th" width="15%">分數</u-th>
+						<u-th class="u-th" width="15%">操作</u-th>
+					</u-tr>
+					<u-tr class="u-tr" v-for="(e,i) in checkItems" :key="i">
+						<u-td class="u-td" width="15%">{{(i+1)}}</u-td>
+						<u-td class="u-td text-cut">
+							<text class="text-cut" style="width: 100%;">{{e.item}}</text>
+						</u-td>
+						<u-td class="u-td" width="15%">{{e.score}}</u-td>
+						<u-td class="u-td" width="15%">
+							<button class="bg-cyan cu-btn sm" @click="deduct(i)">扣分</button>
+						</u-td>
+					</u-tr>
+					<!-- <u-tr>
+						<u-td>合计分数</u-td>
+						<u-td>100</u-td>
+					</u-tr> -->
+				</u-table>
+			</view>
+
+		</view>
+		<view>
+			<u-popup v-model="show" mode="center" border-radius="14" :mask-close-able="false" style="z-index: 1;">
+				<view class="content">
+					<view class="cu-form-group margin-sm">
+						<view class="title">點檢項</view>
+						<textarea v-model="item" disabled auto-height />
+						</view>
+					<view class="cu-form-group margin-sm">
+						<view class="title">分數</view>
+						<input name="input" v-model="score" disabled></input>
+					</view>
+					<view class="cu-form-group margin-sm">
+						<view class="title">扣分</view>
+						<input name="input" v-model="minusScore"></input>
+					</view>
+					<view class="cu-form-group margin-sm">
+						<view class="title">原因</view>
+						 <textarea v-model="reason" auto-height />
+					</view>
+					<view class="cu-form-group margin-sm" @click="camera">
+						<view class="title">拍照</view>
+						<uni-text class="cuIcon-cameraadd"></uni-text>
+					</view>
+					<view class="cu-list grid col-4 justify-center" v-show="showImageList">
+						<view class="cu-item justify-center margin-lr-xs" v-for="(k,s) in images" :key="s" style="width: 200rpx;height: 200rpx; position: relative;">
+							<image :src="images[s]" mode="scaleToFill" @click="selectedImage(s)" >
+							</image>
+								<view 
+								style="position: absolute;left: 75px;bottom: 70px;width: 20px;height: 21px; color: white;background-color: gray; font-size: 20px;"
+								class="cuIcon-close"
+								@click="delImg(index)">
+								
+								</view>
+							
+							<!-- @touchstart="touchstart(s)" @touchend="touchend" -->
+						</view>
+					</view>
+					<view class="grid col-2 padding-sm cu-list justify-center">
+						<button class="cu-btn bg-yellow margin-lr-xs lg" @click="cancel">取消</button>
+						<button class="cu-btn bg-green margin-lr-xs lg" @click="save">保存</button>
+					</view>
+					
+				</view>
+			</u-popup>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				show:false,
+				showClasses:false,
+				checkName:"",
+				depIndex: -1,
+				department: [],
+				classIndex: -1,
+				classes: [],
+				checkItems: [
+				],
+				touchT:'',
+				touchE:'',
+				item:'',
+				score:'',
+				minusScore:'',
+				reason:'',
+				showImageList:false,
+				index:null,
+				images:[],
+				url:'http://192.168.123.86:8088',
+				totalScore:0
+
+			}
+		},
+		onShow(){
+			let that = this;
+			uni.request({
+				url:that.url+"/getDep",
+				method:"GET",
+				timeout:2000, 
+				success(res) {
+					// console.log(res.data);
+					that.department=res.data;
+				},
+					fail: () => {
+						uni.showToast({
+							title:"连接错误",
+							icon:"success",
+							duration:1000
+						})	
+					}
+			})
+		},
+		methods: {
+			selectDep(e) {
+				var that=this;
+				this.depIndex = e.detail.value;
+				this.classIndex=-1;
+				console.log(e.detail);
+				var data=this.department[this.depIndex].id;
+				console.log(data);
+				uni.request({
+					url:that.url+"/getSecend",
+					method:"GET",
+					
+					data:{
+						depId: data
+					},
+					success(res) {
+						console.log(res.data);
+						that.classes=res.data;
+						if(res.data.length==0){
+							console.log(0);
+							that.showClasses=false;
+							that.classIndex=-1;
+						}else{
+							that.showClasses=true;
+						}
+					},
+					fail: () => {
+						uni.showToast({
+							title:"连接错误",
+							icon:"success",
+							duration:1000
+						})	
+					}
+				})
+			},
+			// clickClass(){
+				
+			// },
+			selectClass(e) {
+				var that =this;
+				if(this.depIndex<0){
+					this.classes=[];
+				}
+				this.classIndex = e.detail.value;
+				console.log(this.classes[this.classIndex].depSecendId);
+				console.log(this.department[this.depIndex].id);
+				uni.request({
+					url:that.url+"/getCheckItems",
+					method:"GET",
+					data:{
+						depId:that.department[that.depIndex].id,
+						depSecendId:that.classes[that.classIndex].depSecendId
+					},
+					success: (res) => {
+						console.log(res.data);
+						that.checkItems=res.data;
+					},
+					fail: () => {
+						uni.showToast({
+							title:"连接错误",
+							icon:"success",
+							duration:1000
+						})	
+					}
+				})
+				
+				
+			},
+			deduct(e){
+				console.log(this.classes[this.classIndex].depSecendId);
+				console.log(this.department[this.depIndex].id);
+				// console.log(e);
+				this.score=this.checkItems[e].score
+				this.item=this.checkItems[e].item
+				this.index=e
+				this.show=true;
+				console.log(this.item);
+			},
+			camera() {
+				this.showImageList = true
+				var _this = this;
+				uni.chooseImage({
+					count: 6, //默认9
+					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['camera','album'], //从相册选择 
+					success: function(res) {
+						// this.images = res.tempFilePaths;
+			
+						for (var i = 0; i < res.tempFilePaths.length; i++) {
+							_this.images.push(res.tempFilePaths[i]);
+						}
+						console.log(_this.images);
+						// console.log(this.images.length);
+					}
+				})
+			
+			},
+			selectedImage(index) {
+				var that = this;
+				 // console.log(this.touchE - this.touchT);
+				// if (this.touchE - this.touchT < 350) {
+					uni.previewImage({
+						urls: that.images,
+						current: that.images[index]
+					})
+				// }
+			},
+			delImg(index){
+				this.images.splice(index, 1);
+			},
+			// touchstart(index) {
+			// 	this.touchT = new Date().getTime();
+			// 	let that = this;
+			// 	clearInterval(this.Loop); //再次清空定时器，防止重复注册定时器
+			// 	this.Loop = setTimeout(function() { 
+			// 		uni.showModal({
+			// 			title: '删除',
+			// 			content: '请问要删除本张图片吗？',
+			// 			success: async function(res) {
+			// 				if (res.confirm) {
+			// 					that.images.splice(index, 1);
+
+			// 				} else if (res.cancel) {
+			// 					console.log('用户点击取消')
+			// 				}
+			// 			}
+			// 		});
+			// 	}.bind(this), 1000); 
+			// },
+			// touchend() {
+			// 	clearInterval(this.Loop);
+			// 	this.touchE = new Date().getTime();
+			// },
+			cancel(){
+				this.show=false;
+				this.item=null;
+				this.score=null;
+				this.minusScore=null;
+				this.reason=null;
+				this.images=[]
+			},
+			save(){
+				var that =this;
+				let checkName=this.checkName;
+				let minusScore=this.minusScore;
+				let reason=this.reason;
+				if(checkName == null || checkName==""){
+					uni.showToast({
+						title:"请填写稽查人名称",
+						duration:1000
+					})
+					return
+				}else if(minusScore==0 ||minusScore=="" || minusScore==null ){
+					uni.showToast({
+						title:"请填写扣除分数",
+						duration:1000
+					})
+					return
+				}else if(reason == null || reason==""){
+					uni.showToast({
+						title:"请填写原因",
+						duration:1000
+					})
+					return
+				}else if(minusScore>that.score){
+					uni.showToast({
+						title:"分数不合理",
+						duration:1000
+					})
+					return
+				}else{
+				let imgs=[]
+				for(var i=0; i<this.images.length;i++){
+					imgs.push({
+						name:'file',
+						uri:this.images[i]
+					})
+				}
+				console.log(imgs);
+				uni.uploadFile({
+					files:imgs,
+					// filePath:that.images[0],
+					// name: 'file',
+					url:that.url+"/addDeduct",
+					formData:{
+						minusScore:that.minusScore,
+						name:that.checkName,
+						reason:that.reason,
+						itemId:that.checkItems[that.index].id
+					},
+					success:function(res){
+						console.log(res);
+						if(res.statusCode===200){
+							uni.showToast({
+								title:"保存成功",
+								icon:"success",
+								duration:1000
+							})
+						}else{
+							uni.showToast({
+								title:"发生错误",
+								icon:"success",
+								duration:1000
+							})
+						}
+					},
+					fail: () => {
+						uni.showToast({
+							title:"连接错误",
+							icon:"success",
+							duration:1000
+						})	
+					}
+					
+				})
+				this.checkItems[this.index].score=this.score-this.minusScore
+				this.show=false
+				}
+			}
+		}
+	}
+</script>
+
+<style>
+</style>
