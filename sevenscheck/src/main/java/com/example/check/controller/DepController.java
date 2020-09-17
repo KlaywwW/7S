@@ -1,17 +1,14 @@
 package com.example.check.controller;
 
 import com.example.check.pojo.*;
-import com.example.check.service.CheckService;
 import com.example.check.service.CheckServiceImpl;
 import com.example.check.service.DepartmentServiceImpl;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
 
 import javax.annotation.Resource;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,18 +26,16 @@ public class DepController {
 //    , @RequestParam("file") MultipartFile[] files
     @PostMapping("/addDeduct")
     public String addDeduct(Deduct deduct,MultipartRequest request,Integer num) {
-        System.err.println(num+"=============================");
+        System.err.println(num);
         List<MultipartFile> files=new ArrayList<MultipartFile>();
         for (int i=0;i<num;i++){
             System.err.println(request.getFile("file"+i).getOriginalFilename()+"=============================");
-            /*     System.err.println(request.getFile("image"+i)+"=============================");*/
             files.add(request.getFile("file"+i));
         }
-        System.err.println(files.size()+"=============================");
 
+        System.out.println(String.valueOf(new Date().getTime()));
+        deduct.setTime(String.valueOf(new Date().getTime()));
         System.out.println(deduct.toString());
-        System.out.println(files.size());
-//
         int res = checkService.addDeduct(deduct);
 //
         int imgres = 0;
@@ -111,6 +106,13 @@ public class DepController {
     @GetMapping("/getSecend")
     public List<DepSecend> getSecend(@RequestParam Integer depId) {
         return departmentService.getDepSecend(depId);
+    }
+
+
+    @GetMapping("/getDeduct")
+    public String getDeduct(){
+        List<Deduct> list=checkService.
+        return "success";
     }
 
 }

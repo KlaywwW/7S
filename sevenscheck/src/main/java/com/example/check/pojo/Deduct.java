@@ -1,6 +1,7 @@
 package com.example.check.pojo;
 
 
+
 public class Deduct {
 
   private Integer id;
@@ -8,7 +9,7 @@ public class Deduct {
   private String reason;
   private Integer minusScore;
   private String name;
-  private java.sql.Timestamp time;
+  private String time;
 
   @Override
   public String toString() {
@@ -67,11 +68,11 @@ public class Deduct {
   }
 
 
-  public java.sql.Timestamp getTime() {
+  public String getTime() {
     return time;
   }
 
-  public void setTime(java.sql.Timestamp time) {
+  public void setTime(String time) {
     this.time = time;
   }
 

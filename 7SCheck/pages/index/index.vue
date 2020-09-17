@@ -6,7 +6,7 @@
 		</view>
 		<view class="cu-form-group margin-sm">
 			<view class="title">部門</view>
-			<picker mode="selector" :range="department" :value="depIndex" :range-key="'depName'" @change="selectDep">
+			<picker mode="selector" :range="department" :value="depIndex" :range-key="'depName'" @change="selectDep" @click="getDep">
 				<view class="picker">
 					{{depIndex>-1?department[depIndex].depName:'請選擇部門'}}
 				</view>
@@ -117,8 +117,8 @@
 				showImageList:false,
 				index:null,
 				images:[],
-				// url:'http://192.168.123.86:8088',
-				url:'http://192.168.2.107:8088',
+				url:'http://192.168.123.86:8088',
+				// url:'http://192.168.2.107:8088',
 				totalScore:0
 
 			}
@@ -143,6 +143,25 @@
 			})
 		},
 		methods: {
+			getDep(){
+				let that = this;
+				uni.request({
+					url:that.url+"/getDep",
+					method:"GET",
+					timeout:2000, 
+					success(res) {
+						// console.log(res.data);
+						that.department=res.data;
+					},
+						fail: () => {
+							uni.showToast({
+								title:"连接错误",
+								icon:"success",
+								duration:1000
+							})	
+						}
+				})
+			},
 			selectDep(e) {
 				var that=this;
 				this.depIndex = e.detail.value;
@@ -164,6 +183,19 @@
 							console.log(0);
 							that.showClasses=false;
 							that.classIndex=-1;
+							uni.request({
+								url:that.url+"/getCheckItems",
+								method:"GET",
+								data:{
+									depId:that.department[that.depIndex].id,
+									depSecendId:0
+								},
+								success: (res) => {
+									console.log(res.data);
+									that.checkItems=res.data;
+								}
+							})
+						
 						}else{
 							that.showClasses=true;
 						}
@@ -177,9 +209,6 @@
 					}
 				})
 			},
-			// clickClass(){
-				
-			// },
 			selectClass(e) {
 				var that =this;
 				if(this.depIndex<0){
@@ -211,8 +240,8 @@
 				
 			},
 			deduct(e){
-				console.log(this.classes[this.classIndex].depSecendId);
-				console.log(this.department[this.depIndex].id);
+				// console.log(this.classes[this.classIndex].depSecendId);
+				// console.log(this.department[this.depIndex].id);
 				// console.log(e);
 				this.score=this.checkItems[e].score
 				this.item=this.checkItems[e].item
@@ -253,29 +282,6 @@
 				console.log(index);
 				this.images.splice(index, 1);
 			},
-			// touchstart(index) {
-			// 	this.touchT = new Date().getTime();
-			// 	let that = this;
-			// 	clearInterval(this.Loop); //再次清空定时器，防止重复注册定时器
-			// 	this.Loop = setTimeout(function() { 
-			// 		uni.showModal({
-			// 			title: '删除',
-			// 			content: '请问要删除本张图片吗？',
-			// 			success: async function(res) {
-			// 				if (res.confirm) {
-			// 					that.images.splice(index, 1);
-
-			// 				} else if (res.cancel) {
-			// 					console.log('用户点击取消')
-			// 				}
-			// 			}
-			// 		});
-			// 	}.bind(this), 1000); 
-			// },
-			// touchend() {
-			// 	clearInterval(this.Loop);
-			// 	this.touchE = new Date().getTime();
-			// },
 			cancel(){
 				this.show=false;
 				this.item=null;
@@ -315,13 +321,26 @@
 					return
 				}else{
 				let imgs=[]
+				let num=0;
+				
 				for(var i=0; i<this.images.length;i++){
 					imgs.push({
 						name:'file'+i,
 						uri:this.images[i]
 					})
 				}
+				
+				if(this.images.length<=0){
+					imgs.push({
+						name:'',
+						uri:''
+					})
+					num=0;
+				}else{
+				num=imgs.length;
+				}
 				console.log(imgs);
+				// return false;
 				uni.uploadFile({
 					files:imgs,
 					// filePath:that.images[0],
@@ -332,7 +351,7 @@
 						name:that.checkName,
 						reason:that.reason,
 						itemId:that.checkItems[that.index].id,
-						num:imgs.length
+						num:num
 					},
 					success:function(res){
 						console.log(res);

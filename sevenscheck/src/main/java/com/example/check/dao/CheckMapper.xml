@@ -4,7 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.check.dao.CheckMapper">
     <select id="getAllItems" resultType="com.example.check.pojo.Checkitems">
-        SELECT id,item,score,depId,depSecendId FROM checkitems WHERE depId=#{depId} and depSecendId=#{depSecendId}
+        SELECT id,item,score,depId,depSecendId FROM checkitems WHERE depId=#{depId}
+        <if test="depSecendId!=null and depSecendId!=0">
+            and depSecendId=#{depSecendId}
+        </if>
     </select>
 
     <insert id="addDeduct" parameterType="com.example.check.pojo.Deduct">
@@ -18,4 +21,9 @@
     <select id="getNewId" resultType="integer">
         SELECT `id` FROM deduct ORDER BY `id` DESC LIMIT 0,1
     </select>
+
+    <select id="getDeduct" resultType="com.example.check.pojo.Deduct">
+        SELECT * FROM deduct WHERE `time`<=#{endTime} and `time`>=#{startTime}
+    </select>
+
 </mapper>

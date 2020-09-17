@@ -38,5 +38,6 @@ public interface CheckMapper {
      */
     Integer getNewId();
 
+    List<Deduct> getDeduct(String startTime,String endTime);
 
 }
