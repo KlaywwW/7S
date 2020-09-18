@@ -24,4 +24,21 @@ public interface CheckService {
 
     int addImages(Imagelist imagelist);
     Integer getNewId();
+    List<Deduct> getDeduct(Integer itemId);
+
+    /**
+     * 查询某个时间段下的扣分项目
+     * @param startTime 开始时间
+     * @param endTime 结束时间
+     * @param depId 部门Id
+     * @param depSecendId 二级部门
+     * @return
+     */
+    List<Checkitems> getDeductItem(String startTime,String endTime,Integer depId,Integer depSecendId);
+    /**
+     * 根据扣分记录id获取图片
+     * @param dudctId
+     * @return
+     */
+    List<Imagelist> getDeductImgs(Integer dudctId);
 }

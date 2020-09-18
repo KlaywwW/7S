@@ -23,7 +23,20 @@
     </select>
 
     <select id="getDeduct" resultType="com.example.check.pojo.Deduct">
-        SELECT * FROM deduct WHERE `time`<=#{endTime} and `time`>=#{startTime}
+        SELECT * FROM deduct WHERE itemId=#{itemId}
+    </select>
+
+
+    <select id="getDeductItem" resultType="com.example.check.pojo.Checkitems">
+        SELECT * FROM checkitems WHERE id IN(SELECT itemId FROM deduct WHERE `time` BETWEEN #{startTime} AND #{endTime})
+        AND depId=#{depId}
+        <if test="depSecendId!=null and depSecendId!=0">
+            and depSecendId=#{depSecendId}
+        </if>
+    </select>
+
+    <select id="getDeductImgs" resultType="com.example.check.pojo.Imagelist">
+        SELECT * FROM imagelist WHERE deductId=#{dudctId}
     </select>
 
 </mapper>

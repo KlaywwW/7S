@@ -38,6 +38,30 @@ public interface CheckMapper {
      */
     Integer getNewId();
 
-    List<Deduct> getDeduct(String startTime,String endTime);
+
+    /**
+     * 获取扣的分数
+     * @param itemId 查询某个时间段下的扣分项目的Id
+     * @return
+     */
+    List<Deduct> getDeduct(@Param("itemId")Integer itemId);
+
+    /**
+     * 查询某个时间段下的扣分项目
+     * @param startTime 开始时间
+     * @param endTime 结束时间
+     * @param depId 部门Id
+     * @param depSecendId 二级部门
+     * @return
+     */
+    List<Checkitems> getDeductItem(@Param("startTime") String startTime,@Param("endTime") String endTime,@Param("depId") Integer depId,@Param("depSecendId")Integer depSecendId);
+
+
+    /**
+     * 根据扣分记录id获取图片
+     * @param dudctId
+     * @return
+     */
+    List<Imagelist> getDeductImgs(Integer dudctId);
 
 }

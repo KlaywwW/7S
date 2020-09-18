@@ -34,4 +34,19 @@ public class CheckServiceImpl implements CheckService {
     public Integer getNewId() {
         return checkMapper.getNewId();
     }
+
+    @Override
+    public List<Deduct> getDeduct(Integer itemId) {
+        return checkMapper.getDeduct(itemId);
+    }
+
+    @Override
+    public List<Checkitems> getDeductItem(String startTime, String endTime, Integer depId, Integer depSecendId) {
+        return checkMapper.getDeductItem(startTime, endTime, depId, depSecendId);
+    }
+
+    @Override
+    public List<Imagelist> getDeductImgs(Integer dudctId) {
+        return checkMapper.getDeductImgs(dudctId);
+    }
 }

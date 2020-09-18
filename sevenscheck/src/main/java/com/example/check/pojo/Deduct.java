@@ -1,6 +1,7 @@
 package com.example.check.pojo;
 
 
+import java.util.List;
 
 public class Deduct {
 
@@ -10,6 +11,15 @@ public class Deduct {
   private Integer minusScore;
   private String name;
   private String time;
+  private List<Imagelist> imagelists;
+
+  public List<Imagelist> getImagelists() {
+    return imagelists;
+  }
+
+  public void setImagelists(List<Imagelist> imagelists) {
+    this.imagelists = imagelists;
+  }
 
   @Override
   public String toString() {

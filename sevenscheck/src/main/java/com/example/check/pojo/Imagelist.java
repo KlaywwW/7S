@@ -9,6 +9,7 @@ public class Imagelist {
   private Integer deductId;
 
 
+
   public Integer getId() {
     return id;
   }
