@@ -65,7 +65,7 @@ public class DepController {
                         file.transferTo(new File(filePath));
 
                         Imagelist imagelist = new Imagelist();
-                        imagelist.setImgName(filename);
+                        imagelist.setImgName(System.currentTimeMillis()+"_"+filename);
                         imagelist.setImgPath(filePath);
                         imagelist.setDeductId(checkService.getNewId());
 
@@ -123,8 +123,10 @@ public class DepController {
         List<ResultScore> resultList = new ArrayList<>();
         ResultScore resultScore=null;
 
+//        中间变量解决在向结果类中保存扣分数据时，无法将扣分数据保存到结果类中
         int tempCount=0;
 
+//        保存点检项目信息
         for (Checkitems check : items) {
             resultScore=new ResultScore();
 //            将所有的项目放到结果类里
@@ -133,6 +135,7 @@ public class DepController {
 //            获取扣分项的ItemId
             List<Checkitems> checkitemsList = checkService.getDeductItem(startTime, endTime, depId, depSecendId);
             double count = 0;
+//            此循环保存扣分信息
             for (Checkitems checkitems : checkitemsList) {
 
 
@@ -144,8 +147,12 @@ public class DepController {
 //                根据itemId找到对应的分数
                 List<Deduct> deductsList = checkService.getDeduct(checkitems.getId());
 
+//                保存图片信息
                 for (Deduct deduct : deductsList) {
+//                    获取对应扣分项的图片
                     List<Imagelist> imgs=checkService.getDeductImgs(deduct.getId());
+
+
                     deduct.setImagelists(imgs);
 //                    System.err.println("deduct----" + deduct.getMinusScore());
                     count += deduct.getMinusScore();

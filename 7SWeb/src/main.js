@@ -10,6 +10,7 @@ import 'element-ui/lib/theme-chalk/index.css'; // 默认主题
 import './assets/css/icon.css';
 import './components/common/directives';
 import 'babel-polyfill';
+// import moment from 'moment';
 
 Vue.prototype.axios=axios;
 Vue.config.productionTip = false;
@@ -21,6 +22,15 @@ const i18n = new VueI18n({
     locale: 'zh',
     messages
 });
+// Vue.filter('dateFmt', (input, formatString = "YYYY-MM-DD") => {
+//     //es5函数参数设置默认值
+//     //const lastFormatString = formatString || ''
+
+    
+//      // moment(input) 把时间字符串转成时间对象
+//      // format(formatString) 把时间对象，按照指定格式，格式化成符合条件的字符串
+//     return moment(input).format(formatString)
+// })
 
 //使用钩子函数对路由进行权限跳转
 // router.beforeEach((to, from, next) => {
