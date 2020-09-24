@@ -33,10 +33,11 @@
                     ></el-date-picker>
                 </el-form-item>
                 <el-button type="primary" @click="selectItems">查询</el-button>
+                <el-button type="primary" @click="outExcel">导出数据</el-button>
             </el-form>
         </div>
         <div>
-            <el-table :data="tableData" style="width: 100%"  max-height="1000">
+            <el-table :data="tableData" style="width: 100%" max-height="1000">
                 <el-table-column type="expand">
                     <template slot-scope="props">
                         <el-form label-position="left" inline class="demo-table-expand">
@@ -56,8 +57,17 @@
                                 <div>
                                     <el-form-item label="点检图片"></el-form-item>
                                     <el-row>
-                                        <el-col :sm="6" v-for="(image,j) in item.imagelists" :key="j">
-                                            <img :src="'http:192.168.123.86:8088/'+image.imgName" width="100" height="100">
+                                        <el-col
+                                            :sm="6"
+                                            v-for="(image,j) in item.imagelists"
+                                            :key="j"
+                                        >
+                                            <img
+                                                :src="'api/img/'+image.imgName"
+                                                width="100"
+                                                height="100"
+                                            />
+                                            <!-- <img src="http://192.168.123.86:8088/img/14-1599953794122.jpeg" width="100" height="100"> -->
                                         </el-col>
                                     </el-row>
                                 </div>
@@ -108,6 +118,7 @@ export default {
                     that.classes = res.data;
                 } else {
                     that.showClass = false;
+                    that.classId=0;
                 }
             });
         },
@@ -121,6 +132,67 @@ export default {
                 console.log(res.data);
                 that.tableData = res.data;
             });
+        },
+        outExcel() {
+            let data = {
+                dates: this.dates,
+                depId: this.depId,
+                depSecendId: this.classId
+            };
+            // this.axios
+            //     .post('api/exportExcel', data, {
+            //         headers: {
+            //             responseType: 'blob'
+            //         }
+            //     })
+            //     .then((res) => {
+            //         console.log(res.data);
+            //         console.log(res);
+            //         const link = document.createElement('a');
+            //         let blob = new Blob([res.data], { type: 'application/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            //         link.style.display = 'none';
+            //         link.href = URL.createObjectURL(blob);
+            //         console.log('href:' + link.href);
+            //         let num = '';
+            //         for (let i = 0; i < 10; i++) {
+            //             num += Math.ceil(Math.random() * 10);
+            //         }
+            //         link.setAttribute('download', num + '.xls');
+            //         document.body.appendChild(link);
+            //         link.click();
+            //         document.body.removeChild(link);
+            //     });
+            let xhr = new XMLHttpRequest();
+            xhr.open('post', 'api/exportExcel');
+            //如果需要请求头中这是token信息可以在这设置
+            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+            xhr.responseType = 'blob';
+            xhr.send(JSON.stringify(data));
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const blob = new Blob([xhr.response], { type: 'application/application/vnd.ms-excel' });
+                    const fileName2 = xhr.getResponseHeader('fileName');
+
+                    // 解决下载文件名称乱码
+                    let iconv = require('iconv-lite');
+                    iconv.skipDecodeWarning = true; //忽略警告
+                    let fileName = iconv.decode(fileName2, 'utf-8');
+
+                    let url = window.URL.createObjectURL(blob);
+
+                    //创建一个a标签元素，设置下载属性，点击下载，最后移除该元素
+                    let link = document.createElement('a');
+                    link.href = url;
+                    link.style.display = 'none';
+                    //取出下载文件名
+                    const downlaodFileName = decodeURIComponent(fileName);
+                    console.log(downlaodFileName);
+
+                    link.setAttribute('download', fileName);
+                    link.click();
+                    window.URL.revokeObjectURL(url);
+                }
+            };
         }
     },
     created() {
@@ -135,8 +207,8 @@ export default {
 
 
 <style scoped>
-.fontColor{
-    color:#67C23A;
+.fontColor {
+    color: #67c23a;
 }
 </style>
 

@@ -368,6 +368,7 @@
 								duration:1000
 							})
 						}
+						
 					},
 					fail: () => {
 						uni.showToast({
@@ -379,7 +380,12 @@
 					
 				})
 				this.checkItems[this.index].score=this.score-this.minusScore
-				this.show=false
+				this.show=false;
+				this.item=null;
+				this.score=null;
+				this.minusScore=null;
+				this.reason=null;
+				this.images=[]
 				}
 			}
 		}

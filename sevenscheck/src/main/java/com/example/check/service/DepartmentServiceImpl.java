@@ -22,4 +22,14 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<DepSecend> getDepSecend(Integer depId) {
         return departmentMapper.getDepSecend(depId);
     }
+
+    @Override
+    public Department getDep(Integer depId) {
+        return departmentMapper.getDep(depId);
+    }
+
+    @Override
+    public DepSecend getSecend(Integer depId, Integer depSecendId) {
+        return departmentMapper.getSecend(depId,depSecendId);
+    }
 }

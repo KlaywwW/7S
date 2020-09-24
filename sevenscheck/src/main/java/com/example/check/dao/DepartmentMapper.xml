@@ -11,4 +11,12 @@
         SELECT id,depSecendId,depSecendName,depId FROM dep_secend WHERE depId=#{depId}
     </select>
 
+    <select id="getDep" resultType="com.example.check.pojo.Department">
+        SELECT id,depName FROM  department WHERE id=#{depId}
+    </select>
+
+    <select id="getSecend" resultType="com.example.check.pojo.DepSecend">
+        SELECT id,depSecendId,depSecendName,depId FROM dep_secend WHERE depId=#{depId} and depSecendId=#{depSecendId}
+    </select>
+
 </mapper>

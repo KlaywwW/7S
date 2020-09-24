@@ -3,6 +3,7 @@ package com.example.check.dao;
 import com.example.check.pojo.DepSecend;
 import com.example.check.pojo.Department;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -21,5 +22,18 @@ public interface DepartmentMapper {
      */
     List<DepSecend> getDepSecend(Integer depId);
 
+    /**
+     * 获取对应部门名称
+     * @param depId
+     * @return
+     */
+    Department getDep(Integer depId);
 
+    /**
+     * 获取对应二级部门名称
+     * @param depId
+     * @param depSecendId
+     * @return
+     */
+    DepSecend getSecend(@Param("depId") Integer depId,@Param("depSecendId") Integer depSecendId);
 }

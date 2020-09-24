@@ -5,8 +5,19 @@ import java.util.List;
 public class ResultScore {
 
     private String item;
+    private Integer checkId;
+
     private double score;
+
     private List<Deduct> deduct;
+
+    public Integer getCheckId() {
+        return checkId;
+    }
+
+    public void setCheckId(Integer checkId) {
+        this.checkId = checkId;
+    }
 
     public String getItem() {
         return item;

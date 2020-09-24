@@ -18,4 +18,18 @@ public interface DepartmentService {
      * @return
      */
     List<DepSecend> getDepSecend(Integer depId);
+    /**
+     * 获取对应部门名称
+     * @param depId
+     * @return
+     */
+    Department getDep(Integer depId);
+
+    /**
+     * 获取对应二级部门名称
+     * @param depId
+     * @param depSecendId
+     * @return
+     */
+    DepSecend getSecend(Integer depId,Integer depSecendId);
 }

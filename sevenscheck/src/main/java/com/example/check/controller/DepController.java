@@ -3,6 +3,7 @@ package com.example.check.controller;
 import com.example.check.pojo.*;
 import com.example.check.service.CheckServiceImpl;
 import com.example.check.service.DepartmentServiceImpl;
+import com.example.check.util.ProcessingData;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,7 +11,9 @@ import org.springframework.web.multipart.MultipartRequest;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -21,8 +24,11 @@ public class DepController {
     private CheckServiceImpl checkService;
     @Resource
     private DepartmentServiceImpl departmentService;
+    @Resource
+    private ProcessingData processingData;
 
-    private String fileRootPath = "D:\\7Simages\\";
+
+    private String fileRootPath = "D:\\7Sdata\\7Simages\\";
 
     //    , @RequestParam("file") MultipartFile[] files
     @PostMapping("/addDeduct")
@@ -45,6 +51,9 @@ public class DepController {
         if (files.size() > 0) {
             for (MultipartFile file : files) {
                 // 上传简单文件名
+                Calendar cal=Calendar.getInstance();
+                int mi=cal.get(Calendar.MINUTE);
+
                 String filename = file.getOriginalFilename();
                 System.out.println(filename);
                 String suffixName = null;
@@ -57,15 +66,17 @@ public class DepController {
 
                     // 存储路径
                     filePath = new StringBuilder(fileRootPath)
-                            .append(System.currentTimeMillis()).append("_")
+                            .append(mi).append("-")
                             .append(filename)
                             .toString();
                     try {
 //                 保存文件
+
+
                         file.transferTo(new File(filePath));
 
                         Imagelist imagelist = new Imagelist();
-                        imagelist.setImgName(System.currentTimeMillis()+"_"+filename);
+                        imagelist.setImgName(mi+"-"+filename);
                         imagelist.setImgPath(filePath);
                         imagelist.setDeductId(checkService.getNewId());
 
@@ -117,69 +128,7 @@ public class DepController {
         String startTime = temp[0];
         String endTime = temp[1];
         System.err.println(startTime + "  +  " + endTime + "  +  " + depId + "  +  " + depSecendId);
-
-        List<Checkitems> items = checkService.getAllItems(depId, depSecendId);
-
-        List<ResultScore> resultList = new ArrayList<>();
-        ResultScore resultScore=null;
-
-//        中间变量解决在向结果类中保存扣分数据时，无法将扣分数据保存到结果类中
-        int tempCount=0;
-
-//        保存点检项目信息
-        for (Checkitems check : items) {
-            resultScore=new ResultScore();
-//            将所有的项目放到结果类里
-            resultScore.setItem(check.getItem());
-
-//            获取扣分项的ItemId
-            List<Checkitems> checkitemsList = checkService.getDeductItem(startTime, endTime, depId, depSecendId);
-            double count = 0;
-//            此循环保存扣分信息
-            for (Checkitems checkitems : checkitemsList) {
-
-
-                if(checkitems.getId()!=check.getId()){
-                    continue;
-                }
-
-//                System.out.println("checkItem----" + checkitems.getId());
-//                根据itemId找到对应的分数
-                List<Deduct> deductsList = checkService.getDeduct(checkitems.getId());
-
-//                保存图片信息
-                for (Deduct deduct : deductsList) {
-//                    获取对应扣分项的图片
-                    List<Imagelist> imgs=checkService.getDeductImgs(deduct.getId());
-
-
-                    deduct.setImagelists(imgs);
-//                    System.err.println("deduct----" + deduct.getMinusScore());
-                    count += deduct.getMinusScore();
-                }
-                resultScore.setDeduct(deductsList);
-
-//            扣去的总分
-//                System.out.println("count=----" + count);
-//              将项目的分数减去扣去的分数 的 结果放到结果类里
-                resultScore.setScore(check.getScore()-count);
-                count = 0;
-
-//            添加到集合里
-                resultList.add(resultScore);
-                tempCount=1;
-            }
-//            添加到集合里
-            if (tempCount==0) {
-                resultScore.setScore(check.getScore());
-                resultList.add(resultScore);
-            }
-            tempCount=0;
-
-        }
-
-
-        return resultList;
+        return processingData.getData(startTime,endTime,depId,depSecendId);
 
     }
 

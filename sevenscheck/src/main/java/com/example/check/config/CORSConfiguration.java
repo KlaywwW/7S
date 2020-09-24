@@ -18,7 +18,7 @@ public class CORSConfiguration extends WebMvcConfigurationSupport {
 
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/img/**").addResourceLocations("file:D://7Simages/");
+        registry.addResourceHandler("/img/**").addResourceLocations("file:D://7Sdata/7Simages/");
         super.addResourceHandlers(registry);
     }
 }
