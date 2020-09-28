@@ -14,6 +14,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @SpringBootTest
 class SevenscheckApplicationTests {
@@ -68,6 +70,69 @@ class SevenscheckApplicationTests {
 				}
 			}
 		}
+	}
+
+
+	@Test
+	void testTime(){
+//		String s=String.valueOf("1601251882");
+//		System.out.println(s*1000);
+//		String t=String.toString(s*1000);
+//		System.out.println(t);
+		Long time=new Long("1601252362736");
+		Long time2=new Long("1601252667462");
+		SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sf2=new SimpleDateFormat("yyyy-MM-dd");
+		System.out.println(sf.format(new Date(Long.parseLong(String.valueOf(time)))));
+
+	}
+
+	@Test
+	void testCount(){
+		List<String> hay = new ArrayList<String>();
+		hay.add("2020-09-27");
+		hay.add("2020-09-28");
+//		Match m = new Match();
+		merge(hay);
+	}
+	class Group {
+		private List<String> ins = new ArrayList<String>();
+
+		public List<String> getIns() {
+			return ins;
+		}
+
+		public void setIns(List<String> ins) {
+			this.ins = ins;
+		}
+
+	}
+	public void merge(List<String> hay) {
+		Set<String> keys = new HashSet<String>();
+		Map<String, Group> groups = new HashMap<String, Group>();
+		for (String each : hay) {
+			keys.add(each);
+		}
+		for (String key : keys) {
+			groups.put(key, new Group());
+		}
+		for (String each : hay) {
+			groups.get(each).getIns().add(each);
+		}
+		display(groups);
+	}
+
+	public void display(Map<String, Group> groups) {
+		int count=0;
+		for (Map.Entry<String, Group> each : groups.entrySet()) {
+			System.err.println("++++++++++++++++++==");
+			for (String g : each.getValue().getIns()) {
+				System.err.println(g);
+			}
+			System.err.println("+++++++++++++++++++++");
+			count++;
+		}
+		System.out.println(count);
 	}
 
 }

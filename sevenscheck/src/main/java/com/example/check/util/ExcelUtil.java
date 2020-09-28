@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ExcelUtil {
 
-    public static File writeExcel(List<ResultScore> listData, String sheetName, String fileName, Department department, DepSecend depSecend) {
+    public static File writeExcel(List<ResultScore> listData, String sheetName, String fileName) {
 //       声明一个工作簿
         HSSFWorkbook workbook = new HSSFWorkbook();
 //        生成一个表格，设置表格名称
@@ -83,48 +83,75 @@ public class ExcelUtil {
         HSSFCell cell = null;
         Font font = null;
         CellRangeAddress region2 = new CellRangeAddress(2, listData.size() + 1, 0, 0);//合并单元格
-        CellRangeAddress region3 = new CellRangeAddress(2, listData.size() + 1, 1, 1);//合并单元格
         sheet.addMergedRegion(region2);
-        sheet.addMergedRegion(region3);
-//        CellRangeAddress region4 = new CellRangeAddress(2, listData.size() + 1, 4, 4);//合并单元格
-//        sheet.addMergedRegion(region4);
         workbook.createCellStyle();
 
 
-        int total = 0;
+        double total = 0;
+        int tempDepSecendId = 1;
         for (int j = 0; j < listData.size(); j++) {
+
             row = sheet.createRow(j + 2);
             row.setHeight((short) 550);
             style = workbook.createCellStyle();
             font = workbook.createFont();
             font.setFontHeight((short) 180);
             style.setFont(font);
-//            style.setAlignment(HorizontalAlignment.CENTER);
-//            style.setVerticalAlignment(VerticalAlignment.CENTER);
 
-            cell = row.createCell(0);
-            cell.setCellValue(department.getDepName());
 
-            cell = row.createCell(1);
-            cell.setCellValue(depSecend.getDepSecendName());
+//            if (listData.get(j).getDepSecend() != null) {
+//                if (listData.get(j).getDepSecend().getDepSecendId() > tempDepSecendId) {
+//
+//                    cell = row.createCell(2);
+//                    cell.setCellValue("总分:");
+//                    row.createCell(3).setCellValue(total);
+//
+//
+//                    tempDepSecendId=listData.get(j).getDepSecend().getDepSecendId();
+////                    j=j-1;
+//                    continue;
+//                }
+//            }
 
-            cell = row.createCell(2);
+
+            int col = 0;
+            cell = row.createCell(col);
+            cell.setCellValue(listData.get(j).getDepartment().getDepName());
+
+
+            col = ++col;
+            cell = row.createCell(col);
+            if (listData.get(j).getDepSecend() != null) {
+                cell.setCellValue(listData.get(j).getDepSecend().getDepSecendName());
+
+//                tempDepSecendId = listData.get(j).getDepSecend().getDepSecendId();
+            } else {
+                cell.setCellValue("");
+            }
+
+            col = ++col;
+            cell = row.createCell(col);
             cell.setCellValue(listData.get(j).getItem());
 
-            cell = row.createCell(3);
+            col = ++col;
+            cell = row.createCell(col);
+            System.err.println(col);
             cell.setCellValue(listData.get(j).getScore());
-            total = (int) listData.get(j).getScore() + total;
+            total = (double) listData.get(j).getScore() + total;
 
             if (listData.get(j).getDeduct() != null) {
                 if (listData.get(j).getDeduct().size() > 0) {
                     StringBuffer sb = new StringBuffer();
-                    cell = row.createCell(4);
+                    col = ++col;
+                    cell = row.createCell(col);
                     for (int k = 0; k < listData.get(j).getDeduct().size(); k++) {
                         sb.append((k + 1));
                         sb.append(".");
                         sb.append(listData.get(j).getDeduct().get(k).getReason());
                         sb.append("\n");
 
+
+//                        插入图片
                         int column = 5; //备注图片位置
                         System.err.println(listData.get(j).getDeduct().get(k).getImagelists().size());
                         int num = listData.get(j).getDeduct().get(k).getImagelists().size();
@@ -146,7 +173,7 @@ public class ExcelUtil {
                                 ImageIO.write(bufferImg, "jpg", byteArrayOut);
                                 HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
                                 //anchor主要用于设置图片的属性
-                                anchor = new HSSFClientAnchor(0, 0, 1023, 255, (short) column, j+2, (short) column, j+2);
+                                anchor = new HSSFClientAnchor(0, 0, 1023, 255, (short) column, j + 2, (short) column, j + 2);
                                 anchor.setAnchorType(ClientAnchor.AnchorType.MOVE_AND_RESIZE);
                                 //插入图片
                                 patriarch.createPicture(anchor, workbook.addPicture(byteArrayOut.toByteArray(), HSSFWorkbook.PICTURE_TYPE_JPEG));
@@ -160,7 +187,9 @@ public class ExcelUtil {
                     System.err.println(sb.toString());
                     cell.setCellValue(sb.toString());
                 }
+
             }
+
 
             cell.setCellStyle(style);
 

@@ -36,12 +36,13 @@ public class DepController {
         System.err.println(num);
         List<MultipartFile> files = new ArrayList<MultipartFile>();
         for (int i = 0; i < num; i++) {
+            System.err.println(request.getFile("file" + i));
             System.err.println(request.getFile("file" + i).getOriginalFilename() + "=============================");
             files.add(request.getFile("file" + i));
         }
 
-        System.out.println(String.valueOf(new Date().getTime()));
-        deduct.setTime(String.valueOf(new Date().getTime()));
+        System.out.println(String.valueOf((new Date().getTime())));
+        deduct.setTime(String.valueOf((new Date().getTime())));
         System.out.println(deduct.toString());
         int res = checkService.addDeduct(deduct);
 //

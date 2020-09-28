@@ -4,12 +4,7 @@
             <el-form :inline="true" class="demo-form-inline">
                 <el-form-item label="部门">
                     <el-select v-model="depId" clearable placeholder="请选择" @change="selectDep">
-                        <el-option
-                            v-for="item in department"
-                            :key="item.id"
-                            :label="item.depName"
-                            :value="item.id"
-                        ></el-option>
+                        <el-option v-for="item in department" :key="item.id" :label="item.depName" :value="item.id"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="点检位置" v-show="showClass">
@@ -41,9 +36,9 @@
                 <el-table-column type="expand">
                     <template slot-scope="props">
                         <el-form label-position="left" inline class="demo-table-expand">
-                            <div v-for="(item,i) in props.row.deduct " :key="i">
+                            <div v-for="(item, i) in props.row.deduct" :key="i">
                                 <el-form-item label="扣分原因">
-                                    <span class="fontColor">{{item.reason }}</span>
+                                    <span class="fontColor">{{ item.reason }}</span>
                                 </el-form-item>
                                 <el-form-item label="扣除分数">
                                     <span class="fontColor">{{ item.minusScore }}</span>
@@ -52,21 +47,13 @@
                                     <span class="fontColor">{{ item.name }}</span>
                                 </el-form-item>
                                 <el-form-item label="点检时间">
-                                    <span class="fontColor">{{ item.time | formatDate}}</span>
+                                    <span class="fontColor">{{ item.time | formatDate }}</span>
                                 </el-form-item>
                                 <div>
                                     <el-form-item label="点检图片"></el-form-item>
                                     <el-row>
-                                        <el-col
-                                            :sm="6"
-                                            v-for="(image,j) in item.imagelists"
-                                            :key="j"
-                                        >
-                                            <img
-                                                :src="'api/img/'+image.imgName"
-                                                width="100"
-                                                height="100"
-                                            />
+                                        <el-col :sm="6" v-for="(image, j) in item.imagelists" :key="j">
+                                            <img :src="'api/img/' + image.imgName" width="100" height="100" />
                                             <!-- <img src="http://192.168.123.86:8088/img/14-1599953794122.jpeg" width="100" height="100"> -->
                                         </el-col>
                                     </el-row>
@@ -118,11 +105,26 @@ export default {
                     that.classes = res.data;
                 } else {
                     that.showClass = false;
-                    that.classId=0;
+                    that.classId = 0;
                 }
             });
         },
         selectItems() {
+            if (this.depId == 0 || this.depId == '') {
+                 this.$message({
+                    message: '请选择部门',
+                    type: 'warning'
+                });
+                return false;
+            }
+            
+            if (this.dates == null || this.dates == '') {
+                this.$message({
+                    message: '请选择时间段',
+                    type: 'warning'
+                });
+                return false;
+            }
             var that = this;
             var params = {
                 startTime: that.dates

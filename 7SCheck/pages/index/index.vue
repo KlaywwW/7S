@@ -60,7 +60,7 @@
 					</view>
 					<view class="cu-form-group margin-sm">
 						<view class="title">扣分</view>
-						<input name="input" v-model="minusScore"></input>
+						<input name="input" type="number" v-model="minusScore"></input>
 					</view>
 					<view class="cu-form-group margin-sm">
 						<view class="title">原因</view>
@@ -106,8 +106,7 @@
 				department: [],
 				classIndex: -1,
 				classes: [],
-				checkItems: [
-				],
+				checkItems: [],
 				touchT:'',
 				touchE:'',
 				item:'',
@@ -117,9 +116,12 @@
 				showImageList:false,
 				index:null,
 				images:[],
-				url:'http://192.168.123.86:8088',
+				// url:'http://192.168.123.86:8088',
+				url:'http://192.168.123.51:8088',
 				// url:'http://192.168.2.107:8088',
-				totalScore:0
+				totalScore:0,
+				// 页面保存的数据
+				datas:[]
 
 			}
 		},
@@ -140,6 +142,16 @@
 							duration:1000
 						})	
 					}
+			})
+			uni.getStorage({
+				"key": "check",
+				success: res => {
+					console.log(res);
+					that.datas = res.data;
+				},
+				fail: res => {
+					that.datas = []
+				}
 			})
 		},
 		methods: {
@@ -182,7 +194,7 @@
 						if(res.data.length==0){
 							console.log(0);
 							that.showClasses=false;
-							that.classIndex=-1;
+							that.classIndex=-2;
 							uni.request({
 								url:that.url+"/getCheckItems",
 								method:"GET",
@@ -243,11 +255,26 @@
 				// console.log(this.classes[this.classIndex].depSecendId);
 				// console.log(this.department[this.depIndex].id);
 				// console.log(e);
+				if(this.checkName==null|| this.checkName==""){
+					uni.showToast({
+						title:"请填写稽查人",
+						duration:1000
+					})
+					return false;
+				}
+				if(this.classIndex==-1){
+					uni.showToast({
+						title:"请选择班别",
+						duration:1000
+					})
+					return false;
+				}
 				this.score=this.checkItems[e].score
 				this.item=this.checkItems[e].item
 				this.index=e
 				this.show=true;
 				console.log(this.item);
+				
 			},
 			camera() {
 				this.showImageList = true
@@ -300,25 +327,25 @@
 						title:"请填写稽查人名称",
 						duration:1000
 					})
-					return
+					return false;
 				}else if(minusScore==0 ||minusScore=="" || minusScore==null ){
 					uni.showToast({
 						title:"请填写扣除分数",
 						duration:1000
 					})
-					return
+					return false;
 				}else if(reason == null || reason==""){
 					uni.showToast({
 						title:"请填写原因",
 						duration:1000
 					})
-					return
+					return false;
 				}else if(minusScore>that.score){
 					uni.showToast({
 						title:"分数不合理",
 						duration:1000
 					})
-					return
+					return false;
 				}else{
 				let imgs=[]
 				let num=0;
@@ -340,45 +367,74 @@
 				num=imgs.length;
 				}
 				console.log(imgs);
-				// return false;
-				uni.uploadFile({
-					files:imgs,
-					// filePath:that.images[0],
-					// name: 'file',
-					url:that.url+"/addDeduct",
-					formData:{
-						minusScore:that.minusScore,
-						name:that.checkName,
-						reason:that.reason,
-						itemId:that.checkItems[that.index].id,
-						num:num
-					},
-					success:function(res){
-						console.log(res);
-						if(res.statusCode===200){
-							uni.showToast({
-								title:"保存成功",
-								icon:"success",
-								duration:1000
-							})
-						}else{
-							uni.showToast({
-								title:"发生错误",
-								icon:"success",
-								duration:1000
-							})
-						}
+				// uni.uploadFile({
+				// 	files:imgs,
+				// 	// filePath:that.images[0],
+				// 	// name: 'file',
+				// 	url:that.url+"/addDeduct",
+				// 	formData:{
+				// 		minusScore:that.minusScore,
+				// 		name:that.checkName,
+				// 		reason:that.reason,
+				// 		itemId:that.checkItems[that.index].id,
+				// 		num:num
+				// 	},
+				// 	success:function(res){
+				// 		console.log(res);
+				// 		if(res.statusCode===200){
+				// 			uni.showToast({
+				// 				title:"保存成功",
+				// 				icon:"success",
+				// 				duration:1000
+				// 			})
+				// 		}else{
+				// 			uni.showToast({
+				// 				title:"发生错误",
+				// 				icon:"success",
+				// 				duration:1000
+				// 			})
+				// 		}
 						
-					},
-					fail: () => {
-						uni.showToast({
-							title:"连接错误",
-							icon:"success",
-							duration:1000
-						})	
-					}
+				// 	},
+				// 	fail: () => {
+				// 		uni.showToast({
+				// 			title:"连接错误",
+				// 			icon:"success",
+				// 			duration:1000
+				// 		})	
+				// 	}
 					
-				})
+				// })
+				console.log(that.classIndex);
+				var depSecendName="";
+				if(that.classIndex==-2){
+					depSecendName=""
+				}else{
+					depSecendName=that.classes[that.classIndex].depSecendName
+				}
+				
+				that.datas.push({
+						imgs:imgs,
+						checked:false,
+						check:{
+							item:that.item,
+							depSecendName:depSecendName,
+							depName:that.department[that.depIndex].depName
+						},
+						formData:{
+							minusScore:that.minusScore,
+							name:that.checkName,
+							reason:that.reason,
+							itemId:that.checkItems[that.index].id,
+							num:num
+						}
+					});
+					uni.setStorage({
+						"key": "check",
+						"data": that.datas
+					})
+				console.log(that.datas);
+				
 				this.checkItems[this.index].score=this.score-this.minusScore
 				this.show=false;
 				this.item=null;
@@ -387,6 +443,9 @@
 				this.reason=null;
 				this.images=[]
 				}
+				
+				
+				
 			}
 		}
 	}

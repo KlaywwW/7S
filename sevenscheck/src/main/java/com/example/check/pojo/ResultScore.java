@@ -10,6 +10,33 @@ public class ResultScore {
     private double score;
 
     private List<Deduct> deduct;
+    private Department department;
+    private DepSecend depSecend;
+    private Checkitems checkitems;
+
+    public Checkitems getCheckitems() {
+        return checkitems;
+    }
+
+    public void setCheckitems(Checkitems checkitems) {
+        this.checkitems = checkitems;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public DepSecend getDepSecend() {
+        return depSecend;
+    }
+
+    public void setDepSecend(DepSecend depSecend) {
+        this.depSecend = depSecend;
+    }
 
     public Integer getCheckId() {
         return checkId;

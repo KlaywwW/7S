@@ -32,26 +32,30 @@ public class WebAdminController {
         System.err.println(s);
 
 //        获取前端传来的参数；
-        JSONObject jsonObject=JSON.parseObject(s);
-        JSONArray jsonArray=jsonObject.getJSONArray("dates");
-        Integer  depId=jsonObject.getInteger("depId");
-        Integer depSecendId=jsonObject.getInteger("depSecendId");
-        String startTime=jsonArray.get(0).toString();
-        String endTime=jsonArray.get(1).toString();
+        JSONObject jsonObject = JSON.parseObject(s);
+        JSONArray jsonArray = jsonObject.getJSONArray("dates");
+        Integer depId = jsonObject.getInteger("depId");
+        Integer depSecendId = jsonObject.getInteger("depSecendId");
+        String startTime = jsonArray.get(0).toString();
+        String endTime = jsonArray.get(1).toString();
 
 
+        System.err.println(depId + "-" + depSecendId + "-" + startTime + "-" + endTime);
 
-        System.err.println(depId+"-"+depSecendId+"-"+startTime+"-"+endTime);
+        List<ResultScore> lists = processingData.getData(startTime, endTime, depId, depSecendId);
+        File file = null;
+        if (depSecendId==null || depSecendId == 0) {
+             file = ExcelUtil.writeExcel(lists, "7S稽查项目", (System.currentTimeMillis() / 1000) + departmentService.getDep(depId).getDepName() + "点检.xls");
+        } else {
 
-        List<ResultScore> lists=processingData.getData(startTime,endTime,depId,depSecendId);
-
-        File file=ExcelUtil.writeExcel(lists,"7S稽查项目",(System.currentTimeMillis()/1000)+departmentService.getDep(depId).getDepName()+departmentService.getSecend(depId,depSecendId).getDepSecendName()+"点检.xls",departmentService.getDep(depId),departmentService.getSecend(depId,depSecendId));
-
+             file = ExcelUtil.writeExcel(lists, "7S稽查项目", (System.currentTimeMillis() / 1000) + departmentService.getDep(depId).getDepName() + departmentService.getSecend(depId, depSecendId).getDepSecendName() + "点检.xls");
+        }
 
         System.err.println(file.getAbsolutePath());
         System.err.println(file.getName());
 
-        DownloadFileUtil.downloadFile(file.getName(),new File(file.getAbsolutePath()),response,request);
+        DownloadFileUtil.downloadFile(file.getName(), new File(file.getAbsolutePath()), response, request);
+
         return "success";
     }
 
