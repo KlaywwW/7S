@@ -86,7 +86,7 @@ public class ProcessingData {
 
 //            扣去的总分
 //                System.out.println("count=----" + count);
-//              将项目的分数减去扣去的分数 的 结果放到结果类里
+//              将项目的分数减去扣去的平均分数 的 结果放到结果类里
                 resultScore.setScore(((check.getScore()*groupTotal)-count)/groupTotal);
                 count = 0;
 

@@ -117,8 +117,8 @@
 				index:null,
 				images:[],
 				// url:'http://192.168.123.86:8088',
-				url:'http://192.168.123.51:8088',
-				// url:'http://192.168.2.107:8088',
+				// url:'http://192.168.123.51:8088',
+				url:'http://47.112.192.40:8088',
 				totalScore:0,
 				// 页面保存的数据
 				datas:[]
@@ -137,7 +137,7 @@
 				},
 					fail: () => {
 						uni.showToast({
-							title:"连接错误",
+							title:"网络连接错误",
 							icon:"success",
 							duration:1000
 						})	
@@ -167,7 +167,7 @@
 					},
 						fail: () => {
 							uni.showToast({
-								title:"连接错误",
+								title:"网络连接错误",
 								icon:"success",
 								duration:1000
 							})	
@@ -214,7 +214,7 @@
 					},
 					fail: () => {
 						uni.showToast({
-							title:"连接错误",
+							title:"网络连接错误",
 							icon:"success",
 							duration:1000
 						})	
@@ -242,7 +242,7 @@
 					},
 					fail: () => {
 						uni.showToast({
-							title:"连接错误",
+							title:"网络连接错误",
 							icon:"success",
 							duration:1000
 						})	
@@ -322,21 +322,16 @@
 				let checkName=this.checkName;
 				let minusScore=this.minusScore;
 				let reason=this.reason;
+				
 				if(checkName == null || checkName==""){
 					uni.showToast({
 						title:"请填写稽查人名称",
 						duration:1000
 					})
 					return false;
-				}else if(minusScore==0 ||minusScore=="" || minusScore==null ){
+				}else if(minusScore=="" || minusScore==null ){
 					uni.showToast({
 						title:"请填写扣除分数",
-						duration:1000
-					})
-					return false;
-				}else if(reason == null || reason==""){
-					uni.showToast({
-						title:"请填写原因",
 						duration:1000
 					})
 					return false;
@@ -346,103 +341,115 @@
 						duration:1000
 					})
 					return false;
-				}else{
-				let imgs=[]
-				let num=0;
-				
-				for(var i=0; i<this.images.length;i++){
-					imgs.push({
-						name:'file'+i,
-						uri:this.images[i]
-					})
-				}
-				
-				if(this.images.length<=0){
-					imgs.push({
-						name:'',
-						uri:''
-					})
-					num=0;
-				}else{
-				num=imgs.length;
-				}
-				console.log(imgs);
-				// uni.uploadFile({
-				// 	files:imgs,
-				// 	// filePath:that.images[0],
-				// 	// name: 'file',
-				// 	url:that.url+"/addDeduct",
-				// 	formData:{
-				// 		minusScore:that.minusScore,
-				// 		name:that.checkName,
-				// 		reason:that.reason,
-				// 		itemId:that.checkItems[that.index].id,
-				// 		num:num
-				// 	},
-				// 	success:function(res){
-				// 		console.log(res);
-				// 		if(res.statusCode===200){
-				// 			uni.showToast({
-				// 				title:"保存成功",
-				// 				icon:"success",
-				// 				duration:1000
-				// 			})
-				// 		}else{
-				// 			uni.showToast({
-				// 				title:"发生错误",
-				// 				icon:"success",
-				// 				duration:1000
-				// 			})
-				// 		}
+				}else {
+					if(minusScore==0&&(checkName!=null || checkName!="")){
+						if(reason == null || reason==""){
+							uni.showToast({
+								title:"请填写原因",
+								duration:1000
+							})
+							return false;
+						}else{
+						let imgs=[]
+						let num=0;
 						
-				// 	},
-				// 	fail: () => {
-				// 		uni.showToast({
-				// 			title:"连接错误",
-				// 			icon:"success",
-				// 			duration:1000
-				// 		})	
-				// 	}
-					
-				// })
-				console.log(that.classIndex);
-				var depSecendName="";
-				if(that.classIndex==-2){
-					depSecendName=""
-				}else{
-					depSecendName=that.classes[that.classIndex].depSecendName
-				}
-				
-				that.datas.push({
-						imgs:imgs,
-						checked:false,
-						check:{
-							item:that.item,
-							depSecendName:depSecendName,
-							depName:that.department[that.depIndex].depName
-						},
-						formData:{
-							minusScore:that.minusScore,
-							name:that.checkName,
-							reason:that.reason,
-							itemId:that.checkItems[that.index].id,
-							num:num
+						for(var i=0; i<this.images.length;i++){
+							imgs.push({
+								name:'file'+i,
+								uri:this.images[i]
+							})
 						}
-					});
-					uni.setStorage({
-						"key": "check",
-						"data": that.datas
-					})
-				console.log(that.datas);
-				
-				this.checkItems[this.index].score=this.score-this.minusScore
-				this.show=false;
-				this.item=null;
-				this.score=null;
-				this.minusScore=null;
-				this.reason=null;
-				this.images=[]
+						
+						if(this.images.length<=0){
+							imgs.push({
+								name:'',
+								uri:''
+							})
+							num=0;
+						}else{
+						num=imgs.length;
+						}
+						console.log(imgs);
+						// uni.uploadFile({
+						// 	files:imgs,
+						// 	// filePath:that.images[0],
+						// 	// name: 'file',
+						// 	url:that.url+"/addDeduct",
+						// 	formData:{
+						// 		minusScore:that.minusScore,
+						// 		name:that.checkName,
+						// 		reason:that.reason,
+						// 		itemId:that.checkItems[that.index].id,
+						// 		num:num
+						// 	},
+						// 	success:function(res){
+						// 		console.log(res);
+						// 		if(res.statusCode===200){
+						// 			uni.showToast({
+						// 				title:"保存成功",
+						// 				icon:"success",
+						// 				duration:1000
+						// 			})
+						// 		}else{
+						// 			uni.showToast({
+						// 				title:"发生错误",
+						// 				icon:"success",
+						// 				duration:1000
+						// 			})
+						// 		}
+								
+						// 	},
+						// 	fail: () => {
+						// 		uni.showToast({
+						// 			title:"连接错误",
+						// 			icon:"success",
+						// 			duration:1000
+						// 		})	
+						// 	}
+							
+						// })
+						console.log(that.classIndex);
+						var depSecendName="";
+						if(that.classIndex==-2){
+							depSecendName=""
+						}else{
+							depSecendName=that.classes[that.classIndex].depSecendName
+						}
+						
+						that.datas.push({
+								imgs:imgs,
+								checked:false,
+								check:{
+									item:that.item,
+									depSecendName:depSecendName,
+									depName:that.department[that.depIndex].depName
+								},
+								formData:{
+									minusScore:that.minusScore,
+									name:that.checkName,
+									reason:that.reason,
+									itemId:that.checkItems[that.index].id,
+									num:num
+								}
+							});
+							uni.setStorage({
+								"key": "check",
+								"data": that.datas
+							})
+						console.log(that.datas);
+						
+						this.checkItems[this.index].score=this.score-this.minusScore
+						this.show=false;
+						this.item=null;
+						this.score=null;
+						this.minusScore=null;
+						this.reason=null;
+						this.images=[]
+						}
+					}
 				}
+				
+				
 				
 				
 				

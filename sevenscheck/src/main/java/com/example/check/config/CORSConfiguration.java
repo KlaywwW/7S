@@ -16,6 +16,10 @@ public class CORSConfiguration extends WebMvcConfigurationSupport {
                 .allowedHeaders("*");
     }
 
+    /**
+     * 可以在网页上直接以URL的方式访问图片
+     * @param registry
+     */
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/img/**").addResourceLocations("file:D://7Sdata/7Simages/");
