@@ -117,8 +117,8 @@
 				index:null,
 				images:[],
 				// url:'http://192.168.123.86:8088',
-				// url:'http://192.168.123.51:8088',
-				url:'http://47.112.192.40:8088',
+				url:'http://192.168.123.51:8088',
+				// url:'http://47.112.192.40:8088',
 				totalScore:0,
 				// 页面保存的数据
 				datas:[]
@@ -341,9 +341,7 @@
 						duration:1000
 					})
 					return false;
-				}else {
-					if(minusScore==0&&(checkName!=null || checkName!="")){
-						if(reason == null || reason==""){
+				}else if((reason == null || reason=="") && minusScore!=0){
 							uni.showToast({
 								title:"请填写原因",
 								duration:1000
@@ -446,13 +444,6 @@
 						this.reason=null;
 						this.images=[]
 						}
-					}
-				}
-				
-				
-				
-				
-				
 			}
 		}
 	}
