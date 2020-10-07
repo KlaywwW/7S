@@ -132,5 +132,18 @@ public class DepController {
         return processingData.getData(startTime,endTime,depId,depSecendId);
 
     }
+    @PostMapping("/addDeductList")
+    public String addDeductList(@RequestBody List<Deduct> deducts){
+        System.out.println(deducts.size());
+        int res=0;
+        for (Deduct deduct: deducts) {
+            deduct.setTime(String.valueOf((new Date().getTime())));
+            res=checkService.addDeduct(deduct)+res;
+        }
+        if (res==deducts.size()) {
+            return "success";
+        }
+        return "error";
+    }
 
 }

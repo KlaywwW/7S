@@ -39,10 +39,9 @@
 							<button class="bg-cyan cu-btn sm" @click="deduct(i)">扣分</button>
 						</u-td>
 					</u-tr>
-					<!-- <u-tr>
-						<u-td>合计分数</u-td>
-						<u-td>100</u-td>
-					</u-tr> -->
+					<u-tr class="u-tr">
+						<button type="primary" @click="noDeduct()">上传无扣分项</button>
+					</u-tr>
 				</u-table>
 			</view>
 
@@ -155,6 +154,71 @@
 			})
 		},
 		methods: {
+			noDeduct(){
+				var that=this;
+				let deductList=[]
+				let checkItemsLength=this.checkItems.length
+				let datasLength=this.datas.length;
+				console.log(this.checkItems);
+				console.log(this.datas);
+				for(var i=0;i<checkItemsLength;i++){
+				let count=-1;
+					
+					for(var j=0;j<datasLength;j++){
+						if(that.checkItems[i].id==that.datas[j].formData.itemId){
+							count++;
+							continue;
+						}
+					}
+					if(count<0){
+					deductList.push({
+						itemId:that.checkItems[i].id,
+						reason:null,
+						minusScore:"0",
+						name:that.checkName
+					})
+					}
+					
+				}
+				console.log(deductList);
+				if(deductList.length>0){
+					if(that.checkName==""||that.checkName==null){
+						uni.showToast({
+							title:"请填写稽查人",
+							duration:1000
+						})
+						return false;
+					}
+					uni.request({
+						data:deductList,
+						url:that.url+"/addDeductList" ,
+						method:"POST",
+						timeout:2000,
+						success(res) {
+							console.log(res.data);
+							if(res.data=="success"){
+								uni.showToast({
+									title:"上传成功",
+									icon:"success",
+									duration:1000
+								})
+							}
+						},fail: () => {
+						uni.showToast({
+							title:"网络连接错误",
+							icon:"success",
+							duration:1000
+						})	
+					}
+					})
+				}else{
+					uni.showToast({
+						title:"无上传项",
+						icon:"success",
+						duration:1000
+					})	
+				}
+			},
 			getDep(){
 				let that = this;
 				uni.request({
@@ -176,6 +240,7 @@
 			},
 			selectDep(e) {
 				var that=this;
+				this.checkItems=[];
 				this.depIndex = e.detail.value;
 				this.classIndex=-1;
 				console.log(e.detail);
@@ -222,6 +287,7 @@
 				})
 			},
 			selectClass(e) {
+				this.checkItems=[];
 				var that =this;
 				if(this.depIndex<0){
 					this.classes=[];
