@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.check.dao.CheckMapper">
     <select id="getAllItems" resultType="com.example.check.pojo.Checkitems">
-        SELECT id,item,score,depId,depSecendId FROM checkitems WHERE depId=#{depId}
+        SELECT id,item,score,depId,depSecendId,responsibility FROM checkitems WHERE depId=#{depId}
         <if test="depSecendId!=null and depSecendId!=0">
             and depSecendId=#{depSecendId}
         </if>

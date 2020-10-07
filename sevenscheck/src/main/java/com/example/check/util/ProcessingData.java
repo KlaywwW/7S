@@ -54,6 +54,7 @@ public class ProcessingData {
                     continue;
                 }
 
+
 //                System.out.println("checkItem----" + checkitems.getId());
 //                根据itemId找到对应的分数
                 List<Deduct> deductsList = checkService.getDeduct(checkitems.getId());
@@ -80,7 +81,7 @@ public class ProcessingData {
                 System.err.println(arrayGroupUtil.merge(hay));
                 int groupTotal=arrayGroupUtil.merge(hay);
 
-                System.err.println("groupTotal==================="+groupTotal);
+                System.err.println("groupTotal===================");
 
                 resultScore.setDeduct(deductsList);
 

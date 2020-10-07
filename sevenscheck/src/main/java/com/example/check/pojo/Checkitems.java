@@ -8,6 +8,7 @@ public class Checkitems {
   private double score;
   private Integer depId;
   private Integer depSecendId;
+  private String responsibility;
 
 
   public Integer getId() {
@@ -54,4 +55,11 @@ public class Checkitems {
     this.depSecendId = depSecendId;
   }
 
+  public String getResponsibility() {
+    return responsibility;
+  }
+
+  public void setResponsibility(String responsibility) {
+    this.responsibility = responsibility;
+  }
 }

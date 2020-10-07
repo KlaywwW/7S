@@ -61,7 +61,7 @@ public class ExcelUtil {
         style2.setAlignment(HorizontalAlignment.CENTER);
         style2.setVerticalAlignment(VerticalAlignment.CENTER);
 
-        String[] strs = new String[]{"部门", "小組", "改善并維持的項目", "分数", "原因", "备注"};
+        String[] strs = new String[]{"部门", "小組", "改善并維持的項目", "分数", "责任人", "原因", "备注"};
         HSSFCell cell2 = null;
         for (int i = 0; i < strs.length; i++) {
             cell2 = row2.createCell(i);
@@ -139,20 +139,27 @@ public class ExcelUtil {
             cell.setCellValue(listData.get(j).getScore());
             total = (double) listData.get(j).getScore() + total;
 
+            col = ++col;
+            cell = row.createCell(col);
+            cell.setCellValue(listData.get(j).getCheckitems().getResponsibility());
+
             if (listData.get(j).getDeduct() != null) {
                 if (listData.get(j).getDeduct().size() > 0) {
                     StringBuffer sb = new StringBuffer();
                     col = ++col;
                     cell = row.createCell(col);
                     for (int k = 0; k < listData.get(j).getDeduct().size(); k++) {
-                        sb.append((k + 1));
-                        sb.append(".");
-                        sb.append(listData.get(j).getDeduct().get(k).getReason());
-                        sb.append("\n");
-
+                        if (listData.get(j).getDeduct().get(k).getMinusScore() != 0) {
+                            sb.append((k + 1));
+                            sb.append(".");
+                            sb.append(listData.get(j).getDeduct().get(k).getReason());
+                            sb.append("\n");
+                        }else{
+                            continue;
+                        }
 
 //                        插入图片
-                        int column = 5; //备注图片位置
+                        int column = 6; //备注图片位置
                         System.err.println(listData.get(j).getDeduct().get(k).getImagelists().size());
                         int num = listData.get(j).getDeduct().get(k).getImagelists().size();
                         HSSFClientAnchor anchor = null;
@@ -185,6 +192,7 @@ public class ExcelUtil {
                         }
                     }
                     System.err.println(sb.toString());
+
                     cell.setCellValue(sb.toString());
                 }
 
