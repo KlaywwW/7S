@@ -36,8 +36,7 @@ public class DepController {
         System.err.println(num);
         List<MultipartFile> files = new ArrayList<MultipartFile>();
         for (int i = 0; i < num; i++) {
-            System.err.println(request.getFile("file" + i));
-            System.err.println(request.getFile("file" + i).getOriginalFilename() + "=============================");
+            System.err.println("文件名："+request.getFile("file" + i).getOriginalFilename() + "=============================");
             files.add(request.getFile("file" + i));
         }
 
@@ -137,6 +136,7 @@ public class DepController {
         System.out.println(deducts.size());
         int res=0;
         for (Deduct deduct: deducts) {
+            System.out.println(deduct.toString());
             deduct.setTime(String.valueOf((new Date().getTime())));
             res=checkService.addDeduct(deduct)+res;
         }

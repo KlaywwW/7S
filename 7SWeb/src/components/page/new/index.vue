@@ -32,7 +32,7 @@
             </el-form>
         </div>
         <div>
-            <el-table :data="tableData" style="width: 100%" max-height="1000">
+            <el-table :data="tableData" style="width: 100%" max-height="500">
                 <el-table-column type="expand">
                     <template slot-scope="props">
                         <el-form label-position="left" inline class="demo-table-expand">

@@ -115,9 +115,7 @@
 				showImageList:false,
 				index:null,
 				images:[],
-				// url:'http://192.168.123.86:8088',
-				// url:'http://192.168.123.51:8088',
-				url:'http://47.112.192.40:8088',
+				url:'',
 				totalScore:0,
 				// 页面保存的数据
 				datas:[]
@@ -125,6 +123,8 @@
 			}
 		},
 		onShow(){
+			console.log(getApp().globalData.url);
+			this.url=getApp().globalData.url
 			let that = this;
 			uni.request({
 				url:that.url+"/getDep",
@@ -486,6 +486,7 @@
 								check:{
 									item:that.item,
 									depSecendName:depSecendName,
+									score:that.score,
 									depName:that.department[that.depIndex].depName
 								},
 								formData:{
