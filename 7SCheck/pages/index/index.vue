@@ -47,7 +47,7 @@
 
 		</view>
 		<view>
-			<u-popup v-model="show" mode="center" border-radius="14" :mask-close-able="false" style="z-index: 1;">
+			<u-popup v-model="show" mode="center" border-radius="14" :mask-close-able="false" style="z-index: 1;"  height="900rpx" width="600rpx">
 				<view class="content">
 					<view class="cu-form-group margin-sm">
 						<view class="title">點檢項</view>
@@ -351,14 +351,21 @@
 					sourceType: ['camera','album'], //从相册选择 
 					success: function(res) {
 						// this.images = res.tempFilePaths;
-			
-						for (var i = 0; i < res.tempFilePaths.length; i++) {
-							_this.images.push(res.tempFilePaths[i]);
+						var filePaths=res.tempFilePaths;
+						for (var i = 0; i < filePaths.length; i++) {
+							uni.saveFile({
+								tempFilePath:filePaths[i],
+								success(res) {
+									_this.images.push(res.savedFilePath);
+									console.log(res.savedFilePath);
+								}
+							})
 						}
-						console.log(_this.images);
+						
 						// console.log(this.images.length);
 					}
 				})
+				console.log(_this.images);
 			
 			},
 			selectedImage(index) {

@@ -32,12 +32,13 @@
 			</view>
 			<view>
 
-				<u-popup v-model="show" mode="center" border-radius="14" :mask-close-able="false" style="z-index: 1;">
+				<u-popup v-model="show" mode="center" border-radius="14" :mask-close-able="false" style="z-index: 1;" height="900rpx"
+				 width="600rpx">
 					<view class="content">
 						<view class="cu-form-group margin-sm">
 							<view class="title">點檢項</view>
 							<textarea v-model="item" disabled auto-height />
-						</view>
+							</view>
 						<view class="cu-form-group margin-sm">
 							<view class="title">部门</view>
 							<textarea v-model="dep" disabled auto-height />
@@ -59,7 +60,7 @@
 							<uni-text class="cuIcon-cameraadd"></uni-text>
 						</view>
 						<view class="cu-list grid col-4 justify-center" v-show="showImageList">
-							<view class="cu-item justify-center margin-lr-xs" v-for="(k,s) in images" :key="s" style="width: 200rpx;height: 200rpx; position: relative;">
+							<view class="cu-item margin-lr-xs" v-for="(k,s) in images" :key="s" style="width: 200rpx;height: 200rpx; position: relative;">
 								<image :src="k.uri" mode="scaleToFill" @click="selectedImage(s)" >
 								</image>
 									<view 
@@ -74,7 +75,7 @@
 						</view>
 						<view class="grid col-2 padding-sm cu-list justify-center">
 							<button class="cu-btn bg-yellow margin-lr-xs lg" @click="cancel">取消</button>
-							<button class="cu-btn bg-green margin-lr-xs lg" @click=" ">保存</button>
+							<button class="cu-btn bg-green margin-lr-xs lg" @click="save">保存</button>
 						</view>
 						
 					</view>
@@ -100,23 +101,41 @@
 				showImageList:false,
 				index:null,
 				images:[],
+				dataIndex:''
 			}
 		},
 		methods: {
 			camera() {
 				this.showImageList = true
-				var _this = this;
+				var that = this;
+				var num=this.datas[this.dataIndex].formData.num;
+				console.log(num);
 				uni.chooseImage({
 					count: 6, //默认9
 					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
 					sourceType: ['camera','album'], //从相册选择 
 					success: function(res) {
 						// this.images = res.tempFilePaths;
-			
-						for (var i = 0; i < res.tempFilePaths.length; i++) {
-							_this.images.push(res.tempFilePaths[i]);
+						var filePaths=res.tempFilePaths;
+						for (var i = 0; i < filePaths.length; i++) {
+							uni.saveFile({
+								tempFilePath:filePaths[i],
+								success(res) {
+									console.log("1");
+									// num=num++-1
+									that.images.push({
+										name:'file'+num++,
+										uri:res.savedFilePath
+										});
+									console.log(res.savedFilePath);
+								}
+							})
 						}
-						console.log(_this.images);
+			
+						// for (var i = 0; i < res.tempFilePaths.length; i++) {
+						// 	_this.images.push(res.tempFilePaths[i]);
+						// }
+						// console.log(_this.images);
 						// console.log(this.images.length);
 					}
 				})
@@ -142,17 +161,75 @@
 				this.reason=null;
 				this.images=[]
 			},
-			save(){},
+			save(){
+				// this.datas[this.dataIndex]
+				let imgs=[]
+				let num;
+				for (var i = 0; i < this.images.length; i++) {
+					imgs.push({
+						name:'file'+i,
+						uri:this.images[i].uri
+					})
+				}
+				if(this.images.length==0){
+					imgs.push({
+						name:'',
+						uri:''
+					})
+					num=0;
+				}else{
+				num=this.images.length;
+				}
+				
+				var newData={
+					"imgs":imgs,
+					"checked": false,
+					"check": {
+						"item":this.item,
+						"depSecendName": this.datas[this.dataIndex].check.depSecendName,
+						"score":this.score,
+						"depName": this.datas[this.dataIndex].check.depName
+					},
+					"formData": {
+						"minusScore":this.minusScore,
+						"name": this.datas[this.dataIndex].formData.name,
+						"reason": this.reason,
+						"itemId": this.datas[this.dataIndex].formData.itemId,
+						"num": num
+					}
+				}
+				this.datas[this.dataIndex]=newData;
+				console.log(this.datas);
+				this.show=false;
+				uni.removeStorageSync("check");
+				uni.setStorage({
+					"key": "check",
+					"data": this.datas
+				})
+				
+				
+			},
 			update(i){
-				console.log(this.datas[i]);
+				var that = this
 				let upData=this.datas[i]
 				this.item=upData.check.item;
 				this.dep=upData.check.depName+upData.check.depSecendName;
 				this.score=upData.check.score;
 				this.minusScore=upData.formData.minusScore;
 				this.reason=upData.formData.reason;
-				this.images=upData.imgs;
-				// this.
+				
+				this.dataIndex=i;
+
+				if(upData.imgs.length==1){
+					if(upData.imgs[0].name==""||upData.imgs[0].uri==""){
+						that.images=[];
+					}else{
+						that.images=upData.imgs;
+					}
+				}else{
+					that.images=upData.imgs;
+				}
+				console.log(that.images);
 				this.show=true;
 			},
 			uploadData(i) {
