@@ -57,6 +57,7 @@ public class ProcessingData {
 
 //                System.out.println("checkItem----" + checkitems.getId());
 //                根据itemId找到对应的分数
+//                后续加上时间段，不然会查询所有的时间的扣分项
                 List<Deduct> deductsList = checkService.getDeduct(checkitems.getId());
                 List<String> hay = new ArrayList<String>();
 //                保存图片信息
@@ -75,13 +76,13 @@ public class ProcessingData {
                     Long time=new Long(deduct.getTime());
                     SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd");
                     hay.add(sf.format(new Date(Long.parseLong(String.valueOf(time)))));
-                    System.err.println(sf.format(new Date(Long.parseLong(String.valueOf(time)))));
+//                    System.err.println(sf.format(new Date(Long.parseLong(String.valueOf(time)))));
                     count += deduct.getMinusScore();
                 }
                 System.err.println(arrayGroupUtil.merge(hay));
                 int groupTotal=arrayGroupUtil.merge(hay);
 
-                System.err.println("groupTotal===================");
+                System.err.println("groupTotal==================="+groupTotal);
 
                 resultScore.setDeduct(deductsList);
 

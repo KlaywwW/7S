@@ -98,7 +98,7 @@
 				score:'',
 				minusScore:'',
 				reason:'',
-				showImageList:false,
+				showImageList:true,
 				index:null,
 				images:[],
 				dataIndex:''
@@ -144,9 +144,13 @@
 			selectedImage(index) {
 				var that = this;
 				console.log(that.images);
+				var imgs=[]
+				for (var i = 0; i < that.images.length; i++) {
+					imgs.push(that.images[i].uri)
+				}
 					uni.previewImage({
-						urls: that.images.uri,
-						current: that.images[index].uri
+						urls: imgs,
+						current:imgs[index]
 					})
 			},
 			delImg(index){
@@ -181,6 +185,19 @@
 				num=this.images.length;
 				}
 				
+				if(this.minusScore=="" || this.minusScore==null ){
+					uni.showToast({
+						title:"请填写扣除分数",
+						duration:1000
+					})
+					return false;
+				}else if(this.minusScore>this.score){
+					uni.showToast({
+						title:"分数不合理",
+						duration:1000
+					})
+					return false;
+				}else{
 				var newData={
 					"imgs":imgs,
 					"checked": false,
@@ -206,6 +223,7 @@
 					"key": "check",
 					"data": this.datas
 				})
+				}
 				
 				
 			},
