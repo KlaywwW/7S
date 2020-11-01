@@ -44,7 +44,7 @@ public interface CheckMapper {
      * @param itemId 查询某个时间段下的扣分项目的Id
      * @return
      */
-    List<Deduct> getDeduct(@Param("itemId")Integer itemId);
+    List<Deduct> getDeduct(@Param("itemId")Integer itemId,@Param("startTime")String startTime,@Param("endTime") String endTime);
 
     /**
      * 查询某个时间段下的扣分项目

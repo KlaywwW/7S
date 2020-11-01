@@ -6,6 +6,13 @@ public class Department {
   private Integer id;
   private String depName;
 
+  @Override
+  public String toString() {
+    return "Department{" +
+            "id=" + id +
+            ", depName='" + depName + '\'' +
+            '}';
+  }
 
   public Integer getId() {
     return id;

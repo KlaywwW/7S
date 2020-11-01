@@ -24,7 +24,7 @@ public interface CheckService {
 
     int addImages(Imagelist imagelist);
     Integer getNewId();
-    List<Deduct> getDeduct(Integer itemId);
+    List<Deduct> getDeduct(Integer itemId,String startTime,String endTime);
 
     /**
      * 查询某个时间段下的扣分项目

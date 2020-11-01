@@ -36,8 +36,8 @@ public class CheckServiceImpl implements CheckService {
     }
 
     @Override
-    public List<Deduct> getDeduct(Integer itemId) {
-        return checkMapper.getDeduct(itemId);
+    public List<Deduct> getDeduct(Integer itemId,String startTime,String endTime) {
+        return checkMapper.getDeduct(itemId,startTime,endTime);
     }
 
     @Override

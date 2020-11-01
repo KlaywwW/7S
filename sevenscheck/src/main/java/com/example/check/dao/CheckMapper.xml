@@ -23,7 +23,7 @@
     </select>
 
     <select id="getDeduct" resultType="com.example.check.pojo.Deduct">
-        SELECT * FROM deduct WHERE itemId=#{itemId}
+        SELECT * FROM deduct WHERE itemId=#{itemId} AND `time` BETWEEN #{startTime} AND #{endTime}
     </select>
 
 

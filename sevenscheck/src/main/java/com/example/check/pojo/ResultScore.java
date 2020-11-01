@@ -14,6 +14,19 @@ public class ResultScore {
     private DepSecend depSecend;
     private Checkitems checkitems;
 
+    @Override
+    public String toString() {
+        return "ResultScore{" +
+                "item='" + item + '\'' +
+                ", checkId=" + checkId +
+                ", score=" + score +
+                ", deduct=" + deduct +
+                ", department=" + department +
+                ", depSecend=" + depSecend +
+                ", checkitems=" + checkitems +
+                '}';
+    }
+
     public Checkitems getCheckitems() {
         return checkitems;
     }

@@ -8,6 +8,15 @@ public class DepSecend {
   private String depSecendName;
   private Integer depId;
 
+  @Override
+  public String toString() {
+    return "DepSecend{" +
+            "id=" + id +
+            ", depSecendId=" + depSecendId +
+            ", depSecendName='" + depSecendName + '\'' +
+            ", depId=" + depId +
+            '}';
+  }
 
   public Integer getId() {
     return id;

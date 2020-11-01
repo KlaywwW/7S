@@ -36,11 +36,6 @@ public class ArrayGroupUtil {
     public int display(Map<String, Group> groups) {
         int count=0;
         for (Map.Entry<String, Group> each : groups.entrySet()) {
-            System.out.println("++++++++++++++++++==");
-            for (String g : each.getValue().getIns()) {
-                System.err.println(g);
-            }
-            System.out.println("+++++++++++++++++++++");
             count++;
         }
         System.out.println(count);

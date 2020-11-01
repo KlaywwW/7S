@@ -1,5 +1,13 @@
 package com.example.check;
 
+import com.example.check.pojo.Checkitems;
+import com.example.check.pojo.Deduct;
+import com.example.check.pojo.Imagelist;
+import com.example.check.pojo.ResultScore;
+import com.example.check.service.CheckServiceImpl;
+import com.example.check.service.DepartmentServiceImpl;
+import com.example.check.util.ArrayGroupUtil;
+import com.example.check.util.ProcessingData;
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
 import org.apache.poi.hssf.usermodel.HSSFPatriarch;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -8,6 +16,7 @@ import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -20,119 +29,126 @@ import java.util.*;
 @SpringBootTest
 class SevenscheckApplicationTests {
 
-	@Test
-	void contextLoads() {
-		FileOutputStream fileOut = null;
-		BufferedImage bufferImg =null;
-		BufferedImage bufferImg1 = null;
-		try{
+    @Resource
+    private CheckServiceImpl checkService;
+    @Resource
+    private DepartmentServiceImpl departmentService;
 
-			//先把读进来的图片放到一个ByteArrayOutputStream中，以便产生ByteArray
-			ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
-			ByteArrayOutputStream byteArrayOut1 = new ByteArrayOutputStream();
-			bufferImg = ImageIO.read(new File("D:\\7Sdata\\7Simages\\46-1600825608307.jpg"));
-			bufferImg1 = ImageIO.read(new File("D:\\7Sdata\\7Simages\\12-1599953804985.jpeg"));
-			ImageIO.write(bufferImg,"jpg",byteArrayOut);
-			ImageIO.write(bufferImg1,"jpg",byteArrayOut1);
+    public List<ResultScore> getData(String startTime, String endTime, Integer depId, Integer depSecendId) {
+        List<Checkitems> items = checkService.getAllItems(depId, depSecendId);
 
-			//创建一个工作薄
-			HSSFWorkbook wb = new HSSFWorkbook();
-			HSSFSheet sheet1 = wb.createSheet("new sheet");
-			//HSSFRow row = sheet1.createRow(2);
-			HSSFPatriarch patriarch = sheet1.createDrawingPatriarch();
-			HSSFClientAnchor anchor = new HSSFClientAnchor(0, 0, 1023, 255, (short) 5, 2, (short) 5, 2);
-			HSSFClientAnchor anchor1 = new HSSFClientAnchor(0, 0, 1023, 255, (short) 6, 2, (short) 6, 2);
-			anchor1.setAnchorType(ClientAnchor.AnchorType.MOVE_AND_RESIZE);
-			//插入图片
-			patriarch.createPicture(anchor , wb.addPicture(byteArrayOut.toByteArray(),HSSFWorkbook.PICTURE_TYPE_JPEG));
-			patriarch.createPicture(anchor1 , wb.addPicture(byteArrayOut1.toByteArray(),HSSFWorkbook.PICTURE_TYPE_JPEG));
+        List<ResultScore> resultList = new ArrayList<>();
+        ResultScore resultScore = null;
+        ArrayGroupUtil arrayGroupUtil = new ArrayGroupUtil();
 
-			fileOut = new FileOutputStream("d:/workbook.xls");
-			//写入excel文件
-			wb.write(fileOut);
-			fileOut.close();
+//        中间变量解决在向结果类中保存扣分数据时，无法将扣分数据保存到结果类中
+        int tempCount = 0;
 
-		}catch(IOException io){
-			io.printStackTrace();
-			System.out.println("io erorr : "+ io.getMessage());
-		} finally
-		{
-			if (fileOut != null)
-			{
+//        保存点检项目信息
+//		for (Checkitems check : items) {
+        for (int i = 0; i < items.size(); i++) {
+            resultScore = new ResultScore();
+//            将所有的项目放到结果类里
+            resultScore.setItem(items.get(i).getItem());
+            resultScore.setCheckId(items.get(i).getId());
+            resultScore.setCheckitems(items.get(i));
+//            保存部门信息
+            resultScore.setDepartment(departmentService.getDep(items.get(i).getDepId()));
+            resultScore.setDepSecend(departmentService.getSecend(items.get(i).getDepId(), items.get(i).getDepSecendId()));
 
-				try {
-					fileOut.close();
-				}
-				catch (IOException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-	}
+//            获取扣分项的ItemId
+            List<Checkitems> checkitemsList = checkService.getDeductItem(startTime, endTime, depId, depSecendId);
+            double count = 0;
+//            此循环保存扣分信息
+            for (Checkitems checkitems : checkitemsList) {
+                if (!checkitems.getId().equals(items.get(i).getId())) {
+                    continue;
+                }
 
 
-	@Test
-	void testTime(){
-//		String s=String.valueOf("1601251882");
-//		System.out.println(s*1000);
-//		String t=String.toString(s*1000);
-//		System.out.println(t);
-		Long time=new Long("1601252362736");
-		Long time2=new Long("1601252667462");
-		SimpleDateFormat sf=new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat sf2=new SimpleDateFormat("yyyy-MM-dd");
-		System.out.println(sf.format(new Date(Long.parseLong(String.valueOf(time)))));
+//                System.out.println("checkItem----" + checkitems.getId());
+//                根据itemId找到对应的分数
+//                后续加上时间段，不然会查询所有的时间的扣分项
+                List<Deduct> deductsList = checkService.getDeduct(checkitems.getId(), startTime, endTime);
+                List<String> hay = new ArrayList<>();
+//                保存图片信息
+                for (Deduct deduct : deductsList) {
 
-	}
+//                    获取对应扣分项的图片
+                    List<Imagelist> imgs = checkService.getDeductImgs(deduct.getId());
 
-	@Test
-	void testCount(){
-		List<String> hay = new ArrayList<String>();
-		hay.add("2020-09-27");
-		hay.add("2020-09-28");
-//		Match m = new Match();
-		merge(hay);
-	}
-	class Group {
-		private List<String> ins = new ArrayList<String>();
 
-		public List<String> getIns() {
-			return ins;
-		}
+                    deduct.setImagelists(imgs);
 
-		public void setIns(List<String> ins) {
-			this.ins = ins;
-		}
+                    /*
+                    将时间戳进行转换，再将对应用数组分组来获取一共点检了多少天;
+                     */
+                    Long time = new Long(deduct.getTime());
+                    SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+                    hay.add(sf.format(new Date(Long.parseLong(String.valueOf(time)))));
+                    count += deduct.getMinusScore();
+                }
+                System.err.println(arrayGroupUtil.merge(hay));
+                int groupTotal = arrayGroupUtil.merge(hay);
 
-	}
-	public void merge(List<String> hay) {
-		Set<String> keys = new HashSet<String>();
-		Map<String, Group> groups = new HashMap<String, Group>();
-		for (String each : hay) {
-			keys.add(each);
-		}
-		for (String key : keys) {
-			groups.put(key, new Group());
-		}
-		for (String each : hay) {
-			groups.get(each).getIns().add(each);
-		}
-		display(groups);
-	}
+                System.err.println("groupTotal===================" + groupTotal);
 
-	public void display(Map<String, Group> groups) {
-		int count=0;
-		for (Map.Entry<String, Group> each : groups.entrySet()) {
-			System.err.println("++++++++++++++++++==");
-			for (String g : each.getValue().getIns()) {
-				System.err.println(g);
-			}
-			System.err.println("+++++++++++++++++++++");
-			count++;
-		}
-		System.out.println(count);
-	}
+                resultScore.setDeduct(deductsList);
+
+//            扣去的总分
+//                System.out.println("count=----" + count);
+//              将项目的分数减去扣去的平均分数 的 结果放到结果类里
+                resultScore.setScore(((items.get(i).getScore() * groupTotal) - count) / groupTotal);
+                count = 0;
+
+//            添加到集合里
+                resultList.add(resultScore);
+                tempCount = 1;
+            }
+//            添加到集合里
+            if (tempCount == 0) {
+                resultScore.setScore(items.get(i).getScore());
+                resultList.add(resultScore);
+            }
+            tempCount = 0;
+
+        }
+        return resultList;
+    }
+
+    @Test
+    void test1() {
+        List<ResultScore> resultScoreList = getData("1601481600000", "1604073600000", 3, null);
+
+        List<ResultScore> res = new ArrayList<>();
+        for (ResultScore resultScore : resultScoreList) {
+            res.add(resultScore);
+        }
+        List<ResultScore> res2 = new ArrayList<>();
+        int count=0;
+        for (int i = 0; i < res.size(); i++) {
+            if ((i + 1) < res.size()) {
+                if (res.get(i).getDepSecend().getDepSecendId() != res.get(i + 1).getDepSecend().getDepSecendId()) {
+                    count++;
+                    res2.add(res.get(i));
+                    continue;
+                }
+
+            }
+            if (count>0){
+                res2.add(new ResultScore());
+                count=0;
+            }
+            res2.add(res.get(i));
+        }
+
+        for (ResultScore resultScore : res2) {
+            System.out.println(resultScore.toString());
+        }
+
+        System.err.println(departmentService.getDepSecend(3).size());
+
+    }
+
 
 }

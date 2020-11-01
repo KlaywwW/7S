@@ -18,6 +18,13 @@ import java.util.List;
 
 public class ExcelUtil {
 
+    /**
+     *
+     * @param listData 获取的数据
+     * @param sheetName
+     * @param fileName
+     * @return
+     */
     public static File writeExcel(List<ResultScore> listData, String sheetName, String fileName) {
 //       声明一个工作簿
         HSSFWorkbook workbook = new HSSFWorkbook();
@@ -66,14 +73,24 @@ public class ExcelUtil {
         for (int i = 0; i < strs.length; i++) {
             cell2 = row2.createCell(i);
             cell2.setCellValue(strs[i]);
-            sheet.setColumnWidth(i, 4000);
-            if (i == 2) {
-//                sheet.setDefaultColumnWidth(30);
+            sheet.setColumnWidth(i, 4500);
+            if (i == 1) {
                 font2.setFontHeight((short) 300);
                 font2.setBold(true);
                 style2.setFont(font2);
-                sheet.setColumnWidth(i, 20000);
-//                sheet.setColumnWidth(i, 20);
+                sheet.setColumnWidth(i, 3000);
+            }
+            if (i == 2) {
+                font2.setFontHeight((short) 300);
+                font2.setBold(true);
+                style2.setFont(font2);
+                sheet.setColumnWidth(i, 10000);
+            }
+            if (i == 3) {
+                font2.setFontHeight((short) 300);
+                font2.setBold(true);
+                style2.setFont(font2);
+                sheet.setColumnWidth(i, 2500);
             }
 
             cell2.setCellStyle(style2);
@@ -89,7 +106,10 @@ public class ExcelUtil {
 
         double total = 0;
         int tempDepSecendId = 1;
+        int column = 6; //扣分图片位置
         for (int j = 0; j < listData.size(); j++) {
+
+
 
             row = sheet.createRow(j + 2);
             row.setHeight((short) 550);
@@ -97,26 +117,53 @@ public class ExcelUtil {
             font = workbook.createFont();
             font.setFontHeight((short) 180);
             style.setFont(font);
-
-
-//            if (listData.get(j).getDepSecend() != null) {
-//                if (listData.get(j).getDepSecend().getDepSecendId() > tempDepSecendId) {
-//
-//                    cell = row.createCell(2);
-//                    cell.setCellValue("总分:");
-//                    row.createCell(3).setCellValue(total);
-//
-//
-//                    tempDepSecendId=listData.get(j).getDepSecend().getDepSecendId();
-////                    j=j-1;
-//                    continue;
-//                }
-//            }
-
-
             int col = 0;
+//            整理后的结果将空的数据行放合计
+            if (listData.get(j).getCheckId()==null){
+                CellStyle styleCount1 =  workbook.createCellStyle();
+                col=2;
+                cell = row.createCell(col);
+                cell.setCellValue("合计:");
+                Font fontCount1 = workbook.createFont();
+                fontCount1.setBold(true);
+                fontCount1.setColor(Font.COLOR_NORMAL);
+                fontCount1.setFontHeight((short) 200);
+
+                styleCount1.setVerticalAlignment(VerticalAlignment.CENTER);
+                styleCount1.setFont(fontCount1);
+
+                cell.setCellStyle(styleCount1);
+
+                CellStyle styleCount2 =  workbook.createCellStyle();
+                cell = row.createCell(col+1);
+                cell.setCellValue(total);
+                Font fontCount2 = workbook.createFont();
+                fontCount2.setBold(true);
+                fontCount2.setColor(Font.COLOR_RED);
+                fontCount2.setFontHeight((short) 200);
+
+                styleCount2.setAlignment(HorizontalAlignment.CENTER);
+                styleCount2.setVerticalAlignment(VerticalAlignment.CENTER);
+                styleCount2.setFont(fontCount2);
+
+                cell.setCellStyle(styleCount2);
+                total=0;
+                continue;
+            }
+//给第一列设置样式
+            CellStyle styleDep =  workbook.createCellStyle();
             cell = row.createCell(col);
             cell.setCellValue(listData.get(j).getDepartment().getDepName());
+            Font fontDep = workbook.createFont();
+            fontDep.setBold(true);
+            fontDep.setFontHeight((short) 200);
+
+            styleDep.setAlignment(HorizontalAlignment.CENTER);
+            styleDep.setVerticalAlignment(VerticalAlignment.CENTER);
+            styleDep.setFont(fontDep);
+
+            cell.setCellStyle(styleDep);
+
 
 
             col = ++col;
@@ -135,13 +182,25 @@ public class ExcelUtil {
 
             col = ++col;
             cell = row.createCell(col);
-            System.err.println(col);
             cell.setCellValue(listData.get(j).getScore());
             total = (double) listData.get(j).getScore() + total;
+
+//            给分数列设置样式
+            CellStyle styleScore =  workbook.createCellStyle();
+            Font fontScore = workbook.createFont();
+            styleScore.setAlignment(HorizontalAlignment.CENTER);
+            styleScore.setVerticalAlignment(VerticalAlignment.CENTER);
+            styleScore.setFont(fontScore);
+
+            cell.setCellStyle(styleScore);
+
+
 
             col = ++col;
             cell = row.createCell(col);
             cell.setCellValue(listData.get(j).getCheckitems().getResponsibility());
+
+
 
             if (listData.get(j).getDeduct() != null) {
                 if (listData.get(j).getDeduct().size() > 0) {
@@ -153,13 +212,15 @@ public class ExcelUtil {
                             sb.append((k + 1));
                             sb.append(".");
                             sb.append(listData.get(j).getDeduct().get(k).getReason());
+                            sb.append("。扣除的分数-->");
+                            sb.append(listData.get(j).getDeduct().get(k).getMinusScore());
                             sb.append("\n");
                         }else{
                             continue;
                         }
 
 //                        插入图片
-                        int column = 6; //备注图片位置
+
                         System.err.println(listData.get(j).getDeduct().get(k).getImagelists().size());
                         int num = listData.get(j).getDeduct().get(k).getImagelists().size();
                         HSSFClientAnchor anchor = null;
@@ -191,8 +252,6 @@ public class ExcelUtil {
 
                         }
                     }
-                    System.err.println(sb.toString());
-
                     cell.setCellValue(sb.toString());
                 }
 
@@ -201,29 +260,44 @@ public class ExcelUtil {
 
             cell.setCellStyle(style);
 
+
+
+
+
         }
         //      最后一行
-        CellStyle styleLast = workbook.createCellStyle();
-//        水平居中
-        styleLast.setAlignment(HorizontalAlignment.CENTER);
+        CellStyle styleLast1 = workbook.createCellStyle();
 //        垂直居中
-        styleLast.setVerticalAlignment(VerticalAlignment.CENTER);
+        styleLast1.setVerticalAlignment(VerticalAlignment.CENTER);
 
         HSSFRow rowLast = sheet.createRow(listData.size() + 2);
         rowLast.setHeight((short) 550);
 
-        HSSFCell cellLast = rowLast.createCell(2);
-        cellLast.setCellValue("总分:");
-        rowLast.createCell(3).setCellValue(total);
-        Font fontLast = workbook.createFont();
-        fontLast.setBold(true);
-        fontLast.setColor((short) 200);
-        fontLast.setFontHeight((short) 200);
+        HSSFCell cellLast1 = rowLast.createCell(2);
+        cellLast1.setCellValue("合计:");
+        Font fontLast1 = workbook.createFont();
+        fontLast1.setBold(true);
+        fontLast1.setColor((short) 200);
+        fontLast1.setFontHeight((short) 200);
 
-//      将字体对象赋值给单元格样式对象
-        styleLast.setFont(fontLast);
-//      将单元格样式应用于单元格
-        cellLast.setCellStyle(styleLast);
+        styleLast1.setFont(fontLast1);
+        cellLast1.setCellStyle(styleLast1);
+
+
+//        第二个单元格样式
+        CellStyle styleLast2 = workbook.createCellStyle();
+        styleLast2.setAlignment(HorizontalAlignment.CENTER);
+        styleLast2.setVerticalAlignment(VerticalAlignment.CENTER);
+        HSSFCell cellLast2 = rowLast.createCell(3);
+        cellLast2.setCellValue(total);
+        Font fontLast2 = workbook.createFont();
+        fontLast2.setBold(true);
+        fontLast2.setColor(Font.COLOR_RED);
+        fontLast2.setFontHeight((short) 200);
+
+        styleLast2.setFont(fontLast2);
+        cellLast2.setCellStyle(styleLast2);
+
 
 
 //      保存到本地

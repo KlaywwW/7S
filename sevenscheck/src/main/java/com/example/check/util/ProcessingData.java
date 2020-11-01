@@ -24,7 +24,16 @@ public class ProcessingData {
     @Resource
     private DepartmentServiceImpl departmentService;
 
+    /**
+     *
+     * @param startTime 开始时间
+     * @param endTime 结束时间
+     * @param depId 部门id
+     * @param depSecendId 班别id
+     * @return
+     */
     public List<ResultScore> getData(String startTime,String endTime,Integer depId,Integer depSecendId){
+
         List<Checkitems> items = checkService.getAllItems(depId, depSecendId);
 
         List<ResultScore> resultList = new ArrayList<>();
@@ -55,10 +64,10 @@ public class ProcessingData {
                 }
 
 
-//                System.out.println("checkItem----" + checkitems.getId());
 //                根据itemId找到对应的分数
+
 //                后续加上时间段，不然会查询所有的时间的扣分项
-                List<Deduct> deductsList = checkService.getDeduct(checkitems.getId());
+                List<Deduct> deductsList = checkService.getDeduct(checkitems.getId(),startTime,endTime);
                 List<String> hay = new ArrayList<String>();
 //                保存图片信息
                 for (Deduct deduct : deductsList) {
@@ -68,7 +77,6 @@ public class ProcessingData {
 
 
                     deduct.setImagelists(imgs);
-//                    System.err.println("deduct----" + deduct.getMinusScore());
 
                     /*
                     将时间戳进行转换，再将对应用数组分组来获取一共点检了多少天;
