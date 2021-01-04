@@ -151,6 +151,7 @@ public class ExcelUtil {
                 continue;
             }
 //给第一列设置样式
+//            部门
             CellStyle styleDep =  workbook.createCellStyle();
             cell = row.createCell(col);
             cell.setCellValue(listData.get(j).getDepartment().getDepName());
@@ -165,28 +166,26 @@ public class ExcelUtil {
             cell.setCellStyle(styleDep);
 
 
-
+//小组
             col = ++col;
             cell = row.createCell(col);
             if (listData.get(j).getDepSecend() != null) {
                 cell.setCellValue(listData.get(j).getDepSecend().getDepSecendName());
-
-//                tempDepSecendId = listData.get(j).getDepSecend().getDepSecendId();
             } else {
                 cell.setCellValue("");
             }
-
+//项目
             col = ++col;
             cell = row.createCell(col);
             cell.setCellValue(listData.get(j).getItem());
-
+//分数
             col = ++col;
             cell = row.createCell(col);
             cell.setCellValue(listData.get(j).getScore());
             total = (double) listData.get(j).getScore() + total;
 
 //            给分数列设置样式
-            CellStyle styleScore =  workbook.createCellStyle();
+            CellStyle styleScore = workbook.createCellStyle();
             Font fontScore = workbook.createFont();
             styleScore.setAlignment(HorizontalAlignment.CENTER);
             styleScore.setVerticalAlignment(VerticalAlignment.CENTER);
@@ -195,7 +194,7 @@ public class ExcelUtil {
             cell.setCellStyle(styleScore);
 
 
-
+// 责任人
             col = ++col;
             cell = row.createCell(col);
             cell.setCellValue(listData.get(j).getCheckitems().getResponsibility());
@@ -245,7 +244,7 @@ public class ExcelUtil {
                                 anchor.setAnchorType(ClientAnchor.AnchorType.MOVE_AND_RESIZE);
                                 //插入图片
                                 patriarch.createPicture(anchor, workbook.addPicture(byteArrayOut.toByteArray(), HSSFWorkbook.PICTURE_TYPE_JPEG));
-                                column++;
+//                                column++;
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

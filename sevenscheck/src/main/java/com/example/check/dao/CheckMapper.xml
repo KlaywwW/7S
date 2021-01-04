@@ -8,6 +8,7 @@
         <if test="depSecendId!=null and depSecendId!=0">
             and depSecendId=#{depSecendId}
         </if>
+         ORDER BY depSecendId asc,score desc
     </select>
 
     <insert id="addDeduct" parameterType="com.example.check.pojo.Deduct">
@@ -33,6 +34,7 @@
         <if test="depSecendId!=null and depSecendId!=0">
             and depSecendId=#{depSecendId}
         </if>
+        ORDER BY depSecendId asc,score desc
     </select>
 
     <select id="getDeductImgs" resultType="com.example.check.pojo.Imagelist">

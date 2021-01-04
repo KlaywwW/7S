@@ -1,8 +1,8 @@
 <script>
 	export default {
 		globalData: {
-			// url: 'http://47.112.192.40:8088'
-			url: 'http://192.168.123.86:8088'
+			url: 'http://47.112.192.40:8088'
+			// url: 'http://192.168.123.86:8088'
 		},
 		onLaunch: function() {
 			console.log('App Launch');

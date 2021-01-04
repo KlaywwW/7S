@@ -28,11 +28,18 @@
                     ></el-date-picker>
                 </el-form-item>
                 <el-button type="primary" @click="selectItems">查询</el-button>
-                <el-button type="primary" @click="outExcel">导出数据</el-button>
+                <el-button
+                    type="primary"
+                    @click="outExcel"
+                    v-loading.fullscreen.lock="fullscreenLoading"
+                    :loading="exportLoading"
+                    :disabled="exportDis"
+                    >导出数据</el-button
+                >
             </el-form>
         </div>
         <div>
-            <el-table :data="tableData" style="width: 100%" max-height="500">
+            <el-table :data="tableData" style="width: 100%" max-height="500" v-loading="loading" @expand-change="exChange">
                 <el-table-column type="expand">
                     <template slot-scope="props">
                         <el-form label-position="left" inline class="demo-table-expand">
@@ -49,11 +56,20 @@
                                 <el-form-item label="点检时间">
                                     <span class="fontColor">{{ item.time | formatDate }}</span>
                                 </el-form-item>
-                                <div>
+                                <div v-if="item.imagelists.length > 0">
                                     <el-form-item label="点检图片"></el-form-item>
                                     <el-row>
                                         <el-col :sm="6" v-for="(image, j) in item.imagelists" :key="j">
-                                            <img :src="'api/img/' + image.imgName" width="100" height="100" />
+                                            <div class="demo-image__preview">
+                                                <el-image
+                                                    style="width: 100px; height: 100px"
+                                                    :src="'api/img/' + image.imgName"
+                                                    :preview-src-list="srcList"
+                                                >
+                                                </el-image>
+                                            </div>
+
+                                            <!-- <img :src="'api/img/' + image.imgName" width="100" height="100" /> -->
                                             <!-- <img src="http://192.168.123.86:8088/img/14-1599953794122.jpeg" width="100" height="100"> -->
                                         </el-col>
                                     </el-row>
@@ -65,6 +81,17 @@
                 <el-table-column label="序号" type="index"></el-table-column>
                 <el-table-column label="点检项目" prop="item"></el-table-column>
                 <el-table-column label="分数" prop="score"></el-table-column>
+                <el-table-column label="责任人" prop="checkitems.responsibility"></el-table-column>
+                <el-table-column label="位置">
+                    <template slot-scope="props">
+                        <div v-if="props.row.depSecend != null">
+                            <div>{{ props.row.depSecend.depSecendName }}</div>
+                        </div>
+                        <div v-else>
+                            <div>{{ props.row.department.depName }}</div>
+                        </div>
+                    </template>
+                </el-table-column>
             </el-table>
         </div>
     </div>
@@ -76,25 +103,45 @@ export default {
     filters: {
         //方法一: yyyy-MM-dd hh:mm
         formatDate(time) {
-            console.log(time);
             time = time * 1;
             let date = new Date(time);
-            console.log(new Date(time));
             return formatDate(date, 'yyyy-MM-dd hh:mm:ss');
         }
     },
     data() {
         return {
+            srcList: [],
+            fullscreenLoading: false,
             department: [],
             classes: [],
             depId: '',
             classId: '',
             dates: '',
             showClass: false,
-            tableData: []
+            tableData: [],
+            loading: false,
+            exportDis: false,
+            exportLoading: false
         };
     },
     methods: {
+        // 行展开
+        exChange(expandedRows) {
+            console.log(expandedRows);
+            let that = this;
+            this.srcList = [];
+            if (expandedRows.deduct != null) {
+                let deduct = expandedRows.deduct;
+                for (let i = 0; i < deduct.length; i++) {
+                    if (deduct[i].imagelists.length > 0) {
+                        let img = deduct[i].imagelists;
+                        for (let j = 0; j < img.length; j++) {
+                            that.srcList.push('api/img/' + img[j].imgName);
+                        }
+                    }
+                }
+            }
+        },
         selectDep() {
             console.log(this.depId);
             let that = this;
@@ -111,13 +158,13 @@ export default {
         },
         selectItems() {
             if (this.depId == 0 || this.depId == '') {
-                 this.$message({
+                this.$message({
                     message: '请选择部门',
                     type: 'warning'
                 });
                 return false;
             }
-            
+
             if (this.dates == null || this.dates == '') {
                 this.$message({
                     message: '请选择时间段',
@@ -125,17 +172,28 @@ export default {
                 });
                 return false;
             }
+            this.loading = true;
+
             var that = this;
             var params = {
                 startTime: that.dates
             };
             console.log(this.depId + '-' + this.classId + '-' + this.dates);
-            this.axios.get('api/getDeduct?dates=' + that.dates + '&depId=' + that.depId + '&depSecendId=' + that.classId).then((res) => {
-                console.log(res.data);
-                that.tableData = res.data;
-            });
+            this.axios
+                .get('api/getDeduct?dates=' + that.dates + '&depId=' + that.depId + '&depSecendId=' + that.classId)
+                .then((res) => {
+                    console.log(res.data);
+                    that.tableData = res.data;
+                    that.loading = false;
+                })
+                .catch((res) => {
+                    this.$message('服务器发生错误');
+                });
         },
         outExcel() {
+            this.exportDis = true;
+            this.exportLoading = true;
+            let that = this;
             let data = {
                 dates: this.dates,
                 depId: this.depId,
@@ -193,16 +251,24 @@ export default {
                     link.setAttribute('download', fileName);
                     link.click();
                     window.URL.revokeObjectURL(url);
+                    that.exportDis = false;
+                    that.exportLoading = false;
+                    console.log('end');
                 }
             };
         }
     },
     created() {
         let that = this;
-        this.axios.get('api/getDep').then((res) => {
-            console.log(res.data);
-            that.department = res.data;
-        });
+        this.axios
+            .get('api/getDep')
+            .then((res) => {
+                console.log(res.data);
+                that.department = res.data;
+            })
+            .catch((res) => {
+                this.$message('服务器发生错误');
+            });
     }
 };
 </script>
