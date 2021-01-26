@@ -56,6 +56,9 @@
                                 <el-form-item label="点检时间">
                                     <span class="fontColor">{{ item.time | formatDate }}</span>
                                 </el-form-item>
+                                <el-form-item>
+                                    <el-button type="primary" @click="delDeduct(item)">删除</el-button>
+                                </el-form-item>
                                 <div v-if="item.imagelists.length > 0">
                                     <el-form-item label="点检图片"></el-form-item>
                                     <el-row>
@@ -68,9 +71,6 @@
                                                 >
                                                 </el-image>
                                             </div>
-
-                                            <!-- <img :src="'api/img/' + image.imgName" width="100" height="100" /> -->
-                                            <!-- <img src="http://192.168.123.86:8088/img/14-1599953794122.jpeg" width="100" height="100"> -->
                                         </el-col>
                                     </el-row>
                                 </div>
@@ -125,6 +125,22 @@ export default {
         };
     },
     methods: {
+        delDeduct(val) {
+            let that = this;
+            this.$confirm('是否确认完成?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            })
+                .then(() => {
+                    this.axios.get('api/delDeduct?deductId=' + val.id).then((res) => {
+                        this.$message.success(res.data);
+                        that.selectItems();
+                    });
+                })
+                .catch(() => {});
+            console.log(val);
+        },
         // 行展开
         exChange(expandedRows) {
             console.log(expandedRows);
@@ -199,29 +215,6 @@ export default {
                 depId: this.depId,
                 depSecendId: this.classId
             };
-            // this.axios
-            //     .post('api/exportExcel', data, {
-            //         headers: {
-            //             responseType: 'blob'
-            //         }
-            //     })
-            //     .then((res) => {
-            //         console.log(res.data);
-            //         console.log(res);
-            //         const link = document.createElement('a');
-            //         let blob = new Blob([res.data], { type: 'application/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-            //         link.style.display = 'none';
-            //         link.href = URL.createObjectURL(blob);
-            //         console.log('href:' + link.href);
-            //         let num = '';
-            //         for (let i = 0; i < 10; i++) {
-            //             num += Math.ceil(Math.random() * 10);
-            //         }
-            //         link.setAttribute('download', num + '.xls');
-            //         document.body.appendChild(link);
-            //         link.click();
-            //         document.body.removeChild(link);
-            //     });
             let xhr = new XMLHttpRequest();
             xhr.open('post', 'api/exportExcel');
             //如果需要请求头中这是token信息可以在这设置

@@ -49,4 +49,9 @@ public class CheckServiceImpl implements CheckService {
     public List<Imagelist> getDeductImgs(Integer dudctId) {
         return checkMapper.getDeductImgs(dudctId);
     }
+
+    @Override
+    public int delDeduct(Integer deductId) {
+        return checkMapper.delDeduct(deductId);
+    }
 }

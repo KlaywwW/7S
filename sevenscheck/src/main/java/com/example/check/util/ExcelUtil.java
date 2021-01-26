@@ -198,7 +198,7 @@ public class ExcelUtil {
             col = ++col;
             cell = row.createCell(col);
             cell.setCellValue(listData.get(j).getCheckitems().getResponsibility());
-
+//            cell.setCellValue(listData.get(j).getDepSecend().getResponsibility());
 
 
             if (listData.get(j).getDeduct() != null) {
@@ -226,7 +226,6 @@ public class ExcelUtil {
                         BufferedImage bufferImg = null;
                         ByteArrayOutputStream byteArrayOut = null;
                         for (int x = 0; x < num; x++) {
-
                             String imgName = listData.get(j).getDeduct().get(k).getImagelists().get(x).getImgName();
                             String imgPath = listData.get(j).getDeduct().get(k).getImagelists().get(x).getImgPath();
                             String suffix = imgName.substring(imgName.lastIndexOf("."));

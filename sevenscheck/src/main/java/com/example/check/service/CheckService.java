@@ -3,6 +3,7 @@ package com.example.check.service;
 import com.example.check.pojo.Checkitems;
 import com.example.check.pojo.Deduct;
 import com.example.check.pojo.Imagelist;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -41,4 +42,6 @@ public interface CheckService {
      * @return
      */
     List<Imagelist> getDeductImgs(Integer dudctId);
+
+    int delDeduct(@Param("deductId") Integer deductId);
 }

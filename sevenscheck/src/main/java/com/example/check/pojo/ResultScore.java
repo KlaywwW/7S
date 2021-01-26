@@ -1,7 +1,16 @@
 package com.example.check.pojo;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import java.util.List;
 
+@Data
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class ResultScore {
 
     private String item;
@@ -13,73 +22,4 @@ public class ResultScore {
     private Department department;
     private DepSecend depSecend;
     private Checkitems checkitems;
-
-    @Override
-    public String toString() {
-        return "ResultScore{" +
-                "item='" + item + '\'' +
-                ", checkId=" + checkId +
-                ", score=" + score +
-                ", deduct=" + deduct +
-                ", department=" + department +
-                ", depSecend=" + depSecend +
-                ", checkitems=" + checkitems +
-                '}';
-    }
-
-    public Checkitems getCheckitems() {
-        return checkitems;
-    }
-
-    public void setCheckitems(Checkitems checkitems) {
-        this.checkitems = checkitems;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
-    public DepSecend getDepSecend() {
-        return depSecend;
-    }
-
-    public void setDepSecend(DepSecend depSecend) {
-        this.depSecend = depSecend;
-    }
-
-    public Integer getCheckId() {
-        return checkId;
-    }
-
-    public void setCheckId(Integer checkId) {
-        this.checkId = checkId;
-    }
-
-    public String getItem() {
-        return item;
-    }
-
-    public void setItem(String item) {
-        this.item = item;
-    }
-
-    public double getScore() {
-        return score;
-    }
-
-    public void setScore(double score) {
-        this.score = score;
-    }
-
-    public List<Deduct> getDeduct() {
-        return deduct;
-    }
-
-    public void setDeduct(List<Deduct> deduct) {
-        this.deduct = deduct;
-    }
 }

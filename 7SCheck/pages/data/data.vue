@@ -131,12 +131,6 @@
 								}
 							})
 						}
-			
-						// for (var i = 0; i < res.tempFilePaths.length; i++) {
-						// 	_this.images.push(res.tempFilePaths[i]);
-						// }
-						// console.log(_this.images);
-						// console.log(this.images.length);
 					}
 				})
 			

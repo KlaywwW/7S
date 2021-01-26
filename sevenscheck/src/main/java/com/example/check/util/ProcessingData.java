@@ -105,8 +105,10 @@ public class ProcessingData {
 //              将项目的分数减去扣去的平均分数 的 结果放到结果类里
 //                有三次扣分就可以零分
 
-                if (minusCount > 3) {
+                if (minusCount > 3&&(checkitems.getDepId()==7||checkitems.getDepId()==8)){
                     resultScore.setScore(0);
+                }else if(minusCount>0&&(checkitems.getDepId()!=7&&checkitems.getDepId()!=8)){
+                        resultScore.setScore(0);
                 }else{
                     resultScore.setScore(((check.getScore()*groupTotal)-count)/groupTotal);
                 }

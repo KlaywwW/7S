@@ -64,4 +64,11 @@ public interface CheckMapper {
      */
     List<Imagelist> getDeductImgs(Integer dudctId);
 
+    /**
+     * 删除一条扣分记录
+     * @param deductId
+     * @return
+     */
+    int delDeduct(@Param("deductId") Integer deductId);
+
 }
