@@ -54,4 +54,9 @@ public class CheckServiceImpl implements CheckService {
     public int delDeduct(Integer deductId) {
         return checkMapper.delDeduct(deductId);
     }
+
+    @Override
+    public int updateDeduct(Deduct deduct) {
+        return checkMapper.updateDeduct(deduct);
+    }
 }

@@ -92,7 +92,6 @@ public class ProcessingData {
                     count += deduct.getMinusScore();
 
                 }
-                System.err.println(arrayGroupUtil.merge(hay));
 
                 int groupTotal=arrayGroupUtil.merge(hay);
 

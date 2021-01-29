@@ -38,7 +38,6 @@ public class ArrayGroupUtil {
         for (Map.Entry<String, Group> each : groups.entrySet()) {
             count++;
         }
-        System.out.println(count);
         return count;
     }
 }

@@ -14,13 +14,12 @@ import java.util.List;
 @NoArgsConstructor
 public class Deduct {
 
-  private Integer id;
-  private Integer itemId;
-  private String reason;
-  private Integer minusScore;
-  private String name;
-  private String time;
-  private List<Imagelist> imagelists;
-
+    private Integer id;
+    private Integer itemId;
+    private String reason;
+    private Integer minusScore;
+    private String name;
+    private String time;
+    private List<Imagelist> imagelists;
 
 }

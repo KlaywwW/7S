@@ -57,7 +57,8 @@
                                     <span class="fontColor">{{ item.time | formatDate }}</span>
                                 </el-form-item>
                                 <el-form-item>
-                                    <el-button type="primary" @click="delDeduct(item)">删除</el-button>
+                                    <el-button type="error" @click="delDeduct(item)">删除</el-button>
+                                    <el-button type="primary" @click="updateDeduct(item)">修改</el-button>
                                 </el-form-item>
                                 <div v-if="item.imagelists.length > 0">
                                     <el-form-item label="点检图片"></el-form-item>
@@ -94,6 +95,25 @@
                 </el-table-column>
             </el-table>
         </div>
+        <div>
+            <el-dialog title="修改" :visible.sync="dialogFormVisible" width="30%">
+                <el-form :model="deduct">
+                    <el-form-item label="点检项目" label-width="100px">
+                        <el-input disabled v-model="itemContent"></el-input>
+                    </el-form-item>
+                    <el-form-item label="扣分原因" label-width="100px">
+                        <el-input v-model="deduct.reason" autocomplete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="扣除的分数" label-width="100px">
+                        <el-input-number v-model="deduct.minusScore" controls-position="right" :min="1" :max="maxNum"></el-input-number>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="cancel()">取 消</el-button>
+                    <el-button type="primary" @click="sure()">确 定</el-button>
+                </div>
+            </el-dialog>
+        </div>
     </div>
 </template>
 
@@ -121,10 +141,34 @@ export default {
             tableData: [],
             loading: false,
             exportDis: false,
-            exportLoading: false
+            exportLoading: false,
+            dialogFormVisible: false,
+            deduct: {},
+            itemContent: '',
+            maxNum: 0
         };
     },
     methods: {
+        updateDeduct(val) {
+            if (val == null) {
+                return true;
+            }
+            this.dialogFormVisible = true;
+            this.deduct = val;
+        },
+        sure() {
+            let that = this;
+            console.log(this.deduct);
+            this.axios.post('api/updateDeduct', this.deduct).then((res) => {
+                this.$message.success(res.data);
+                that.selectItems();
+                that.dialogFormVisible = false;
+            });
+        },
+        cancel() {
+            this.dialogFormVisible = false;
+            this.deduct = {};
+        },
         delDeduct(val) {
             let that = this;
             this.$confirm('是否确认完成?', '提示', {
@@ -144,6 +188,8 @@ export default {
         // 行展开
         exChange(expandedRows) {
             console.log(expandedRows);
+            this.itemContent = expandedRows.item;
+            this.maxNum = expandedRows.checkitems.score;
             let that = this;
             this.srcList = [];
             if (expandedRows.deduct != null) {
@@ -159,7 +205,6 @@ export default {
             }
         },
         selectDep() {
-            console.log(this.depId);
             let that = this;
             this.axios.get('api/getSecend?depId=' + this.depId).then((res) => {
                 console.log(res.data);

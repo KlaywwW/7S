@@ -44,4 +44,6 @@ public interface CheckService {
     List<Imagelist> getDeductImgs(Integer dudctId);
 
     int delDeduct(@Param("deductId") Integer deductId);
+
+    int updateDeduct(Deduct deduct);
 }

@@ -71,4 +71,11 @@ public interface CheckMapper {
      */
     int delDeduct(@Param("deductId") Integer deductId);
 
+    /**
+     * 修改一条扣分记录
+     * @param deduct
+     * @return
+     */
+    int updateDeduct(Deduct deduct);
+
 }
