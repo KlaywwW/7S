@@ -1,3 +1,4 @@
+<!-- 未使用 -->
 <template>
     <div>
         <el-form :inline="true" class="demo-form-inline">
@@ -39,7 +40,7 @@
         <vxe-table border resizable show-overflow :data="tableData" :edit-config="{ trigger: 'click', mode: 'cell' }">
             <vxe-table-column type="seq" width="60"></vxe-table-column>
             <vxe-table-column type="expand" width="60">
-                <template v-slot:content="{ row, rowIndex }">
+                <template v-slot:content="{ row }">
                     <div v-for="(item, i) in row.deduct" :key="i">
                         <el-form-item label="扣分原因">
                             <span class="fontColor">{{ item.reason }}</span>
@@ -51,7 +52,7 @@
                             <span class="fontColor">{{ item.name }}</span>
                         </el-form-item>
                         <el-form-item label="点检时间">
-                            <span class="fontColor">{{ item.time | formatDate }}</span>
+                            <span class="fontColor">{{ item.time | formatDate}}</span>
                         </el-form-item>
                         <div v-if="item.imagelists.length > 0">
                             <el-form-item label="点检图片"></el-form-item>
@@ -92,6 +93,7 @@
 </template>
 
 <script>
+import { formatDate } from '../../../utils/dateFormat';
 export default {
     filters: {
         //方法一: yyyy-MM-dd hh:mm

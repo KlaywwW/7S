@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "uni-ui基础项目",
+  "navigationBarTitleText": "7S稽核点检",
   "usingComponents": {
     "u-table": "/uview-ui/components/u-table/u-table",
     "u-tr": "/uview-ui/components/u-tr/u-tr",

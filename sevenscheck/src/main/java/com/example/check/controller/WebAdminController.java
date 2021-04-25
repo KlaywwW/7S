@@ -35,6 +35,14 @@ public class WebAdminController {
     @Resource
     private CheckServiceImpl checkService;
 
+    /**
+     * 导出excel表格
+     * @param s
+     * @param response
+     * @param request
+     * @return
+     * @throws Exception
+     */
     @RequestMapping("/exportExcel")
     public String exportExcel(@RequestBody String s, HttpServletResponse response, HttpServletRequest request) throws Exception {
         System.err.println(s);
@@ -48,7 +56,7 @@ public class WebAdminController {
         String endTime = jsonArray.get(1).toString();
 
 
-        System.err.println(depId + "-" + depSecendId + "-" + startTime + "-" + endTime);
+//        System.err.println(depId + "-" + depSecendId + "-" + startTime + "-" + endTime);
 
         List<ResultScore> lists = processingData.getData(startTime, endTime, depId, depSecendId);
 
@@ -108,6 +116,11 @@ public class WebAdminController {
     }
 
 
+    /**
+     * 删除点检项
+     * @param deductId
+     * @return
+     */
     @RequestMapping("/delDeduct")
     public String delDeduct(@RequestParam("deductId") Integer deductId) {
         int res = checkService.delDeduct(deductId);
@@ -117,6 +130,11 @@ public class WebAdminController {
         return "删除失败";
     }
 
+    /**
+     * 修改点检项
+     * @param strs
+     * @return
+     */
     @RequestMapping("/updateDeduct")
     public String updateDeduct(@RequestBody String strs) {
 

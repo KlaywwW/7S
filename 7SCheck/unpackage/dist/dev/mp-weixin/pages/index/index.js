@@ -1,9 +1,9 @@
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["pages/index/index"],{
 
 /***/ 39:
-/*!************************************************************************************!*\
-  !*** D:/HBuilderProjects/7SCheck/7SCheck/main.js?{"page":"pages%2Findex%2Findex"} ***!
-  \************************************************************************************/
+/*!***********************************************************************!*\
+  !*** D:/projects/7S/7SCheck/main.js?{"page":"pages%2Findex%2Findex"} ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17,9 +17,9 @@ createPage(_index.default);
 /***/ }),
 
 /***/ 40:
-/*!*****************************************************************!*\
-  !*** D:/HBuilderProjects/7SCheck/7SCheck/pages/index/index.vue ***!
-  \*****************************************************************/
+/*!****************************************************!*\
+  !*** D:/projects/7S/7SCheck/pages/index/index.vue ***!
+  \****************************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -56,9 +56,9 @@ component.options.__file = "pages/index/index.vue"
 /***/ }),
 
 /***/ 41:
-/*!************************************************************************************************!*\
-  !*** D:/HBuilderProjects/7SCheck/7SCheck/pages/index/index.vue?vue&type=template&id=57280228& ***!
-  \************************************************************************************************/
+/*!***********************************************************************************!*\
+  !*** D:/projects/7S/7SCheck/pages/index/index.vue?vue&type=template&id=57280228& ***!
+  \***********************************************************************************/
 /*! exports provided: render, staticRenderFns, recyclableRender, components */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -78,9 +78,9 @@ __webpack_require__.r(__webpack_exports__);
 /***/ }),
 
 /***/ 42:
-/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--16-0!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/HBuilderProjects/7SCheck/7SCheck/pages/index/index.vue?vue&type=template&id=57280228& ***!
-  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--16-0!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/projects/7S/7SCheck/pages/index/index.vue?vue&type=template&id=57280228& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns, recyclableRender, components */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -90,21 +90,40 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
-var components = {
-  uTable: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-table/u-table */ "uview-ui/components/u-table/u-table").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-table/u-table.vue */ 48))
-  },
-  uTr: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-tr/u-tr */ "uview-ui/components/u-tr/u-tr").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tr/u-tr.vue */ 55))
-  },
-  uTh: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-th/u-th */ "uview-ui/components/u-th/u-th").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-th/u-th.vue */ 62))
-  },
-  uTd: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-td/u-td */ "uview-ui/components/u-td/u-td").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-td/u-td.vue */ 69))
-  },
-  uPopup: function() {
-    return __webpack_require__.e(/*! import() | uview-ui/components/u-popup/u-popup */ "uview-ui/components/u-popup/u-popup").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-popup/u-popup.vue */ 76))
+var components
+try {
+  components = {
+    uTable: function() {
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-table/u-table */ "uview-ui/components/u-table/u-table").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-table/u-table.vue */ 51))
+    },
+    uTr: function() {
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-tr/u-tr */ "uview-ui/components/u-tr/u-tr").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-tr/u-tr.vue */ 58))
+    },
+    uTh: function() {
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-th/u-th */ "uview-ui/components/u-th/u-th").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-th/u-th.vue */ 65))
+    },
+    uTd: function() {
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-td/u-td */ "uview-ui/components/u-td/u-td").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-td/u-td.vue */ 72))
+    },
+    uPopup: function() {
+      return __webpack_require__.e(/*! import() | uview-ui/components/u-popup/u-popup */ "uview-ui/components/u-popup/u-popup").then(__webpack_require__.bind(null, /*! @/uview-ui/components/u-popup/u-popup.vue */ 79))
+    }
+  }
+} catch (e) {
+  if (
+    e.message.indexOf("Cannot find module") !== -1 &&
+    e.message.indexOf(".vue") !== -1
+  ) {
+    console.error(e.message)
+    console.error("1. 排查组件名称拼写是否正确")
+    console.error(
+      "2. 排查组件是否符合 easycom 规范，文档：https://uniapp.dcloud.net.cn/collocation/pages?id=easycom"
+    )
+    console.error(
+      "3. 若组件不符合 easycom 规范，需手动引入，并在 components 中注册该组件"
+    )
+  } else {
+    throw e
   }
 }
 var render = function() {
@@ -121,9 +140,9 @@ render._withStripped = true
 /***/ }),
 
 /***/ 43:
-/*!******************************************************************************************!*\
-  !*** D:/HBuilderProjects/7SCheck/7SCheck/pages/index/index.vue?vue&type=script&lang=js& ***!
-  \******************************************************************************************/
+/*!*****************************************************************************!*\
+  !*** D:/projects/7S/7SCheck/pages/index/index.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -137,14 +156,26 @@ __webpack_require__.r(__webpack_exports__);
 /***/ }),
 
 /***/ 44:
-/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/HBuilderProjects/7SCheck/7SCheck/pages/index/index.vue?vue&type=script&lang=js& ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/projects/7S/7SCheck/pages/index/index.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 45));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};} //
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -233,37 +264,13 @@ var _default =
   data: function data() {
     return {
       show: false,
+      showClasses: false,
+      checkName: "",
       depIndex: -1,
-      department: [{
-        depId: '1',
-        depName: '製一線' },
-
-      {
-        depId: '2',
-        depName: '製二線' },
-
-      {
-        depId: '3',
-        depName: '製三線' },
-
-      {
-        depId: '4',
-        depName: '製四線' }],
-
-
+      department: [],
       classIndex: -1,
       classes: [],
-      checkItems: [{
-        itemId: 1,
-        item: 'sdsfdsfsdf',
-        score: 10 },
-
-      {
-        itemId: 2,
-        item: 'sdsfdsfsdfssssssssssssssssssssssttttttttttttttttssssssssssssssstttttt',
-        score: 20 }],
-
-
+      checkItems: [],
       touchT: '',
       touchE: '',
       item: '',
@@ -272,54 +279,233 @@ var _default =
       reason: '',
       showImageList: false,
       index: null,
-      images: [] };
+      images: [],
+      url: '',
+      totalScore: 0,
+      // 页面保存的数据
+      datas: [] };
 
 
   },
+  onShow: function onShow() {
+    console.log(getApp().globalData.url);
+    this.url = getApp().globalData.url;
+    var that = this;
+    uni.request({
+      url: that.url + "/getDep",
+      method: "GET",
+      timeout: 2000,
+      success: function success(res) {
+        // console.log(res.data);
+        that.department = res.data;
+      },
+      fail: function fail() {
+        uni.showToast({
+          title: "网络连接错误",
+          icon: "success",
+          duration: 1000 });
+
+      } });
+
+    uni.getStorage({
+      "key": "check",
+      success: function success(res) {
+        console.log(res);
+        that.datas = res.data;
+      },
+      fail: function fail(res) {
+        that.datas = [];
+      } });
+
+  },
   methods: {
-    selectDep: function selectDep(e) {
-      this.depIndex = e.detail.value;
-      console.log(e.detail);
-      if (this.department[e.detail.value].depId == 1) {
-        this.classes = [{
-          classId: '1',
-          className: 'A班' },
+    noDeduct: function noDeduct() {
+      var that = this;
+      var deductList = [];
+      var checkItemsLength = this.checkItems.length;
+      var datasLength = this.datas.length;
+      console.log(this.checkItems);
+      console.log(this.datas);
+      for (var i = 0; i < checkItemsLength; i++) {
+        var count = -1;
 
-        {
-          classId: '2',
-          className: 'B班' },
-        {
-          classId: '3',
-          className: 'C班' }];
+        for (var j = 0; j < datasLength; j++) {
+          if (that.checkItems[i].id == that.datas[j].formData.itemId) {
+            count++;
+            continue;
+          }
+        }
+        if (count < 0) {
+          deductList.push({
+            itemId: that.checkItems[i].id,
+            reason: null,
+            minusScore: "0",
+            name: that.checkName });
 
+        }
+
+      }
+      console.log(deductList);
+      if (deductList.length > 0) {
+        if (that.checkName == "" || that.checkName == null) {
+          uni.showToast({
+            title: "请填写稽查人",
+            duration: 1000 });
+
+          return false;
+        }
+        uni.request({
+          data: deductList,
+          url: that.url + "/addDeductList",
+          method: "POST",
+          timeout: 2000,
+          success: function success(res) {
+            console.log(res.data);
+            if (res.data == "success") {
+              uni.showToast({
+                title: "上传成功",
+                icon: "success",
+                duration: 1000 });
+
+            }
+          }, fail: function fail() {
+            uni.showToast({
+              title: "网络连接错误",
+              icon: "success",
+              duration: 1000 });
+
+          } });
 
       } else {
-        this.classes = [{
-          classId: '1',
-          className: '1班' },
-
-        {
-          classId: '2',
-          className: '2班' },
-        {
-          classId: '3',
-          className: '3班' }];
-
+        uni.showToast({
+          title: "无上传项",
+          icon: "success",
+          duration: 1000 });
 
       }
     },
+    getDep: function getDep() {
+      var that = this;
+      uni.request({
+        url: that.url + "/getDep",
+        method: "GET",
+        timeout: 2000,
+        success: function success(res) {
+          // console.log(res.data);
+          that.department = res.data;
+        },
+        fail: function fail() {
+          uni.showToast({
+            title: "网络连接错误",
+            icon: "success",
+            duration: 1000 });
+
+        } });
+
+    },
+    selectDep: function selectDep(e) {
+      var that = this;
+      this.checkItems = [];
+      this.depIndex = e.detail.value;
+      this.classIndex = -1;
+      console.log(e.detail);
+      var data = this.department[this.depIndex].id;
+      console.log(data);
+      uni.request({
+        url: that.url + "/getSecend",
+        method: "GET",
+
+        data: {
+          depId: data },
+
+        success: function success(res) {
+          console.log(res.data);
+          that.classes = res.data;
+          if (res.data.length == 0) {
+            console.log(0);
+            that.showClasses = false;
+            that.classIndex = -2;
+            uni.request({
+              url: that.url + "/getCheckItems",
+              method: "GET",
+              data: {
+                depId: that.department[that.depIndex].id,
+                depSecendId: 0 },
+
+              success: function success(res) {
+                console.log(res.data);
+                that.checkItems = res.data;
+              } });
+
+
+          } else {
+            that.showClasses = true;
+          }
+        },
+        fail: function fail() {
+          uni.showToast({
+            title: "网络连接错误",
+            icon: "success",
+            duration: 1000 });
+
+        } });
+
+    },
     selectClass: function selectClass(e) {
+      this.checkItems = [];
+      var that = this;
+      if (this.depIndex < 0) {
+        this.classes = [];
+      }
       this.classIndex = e.detail.value;
+      console.log(this.classes[this.classIndex].depSecendId);
+      console.log(this.department[this.depIndex].id);
+      uni.request({
+        url: that.url + "/getCheckItems",
+        method: "GET",
+        data: {
+          depId: that.department[that.depIndex].id,
+          depSecendId: that.classes[that.classIndex].depSecendId },
+
+        success: function success(res) {
+          console.log(res.data);
+          that.checkItems = res.data;
+        },
+        fail: function fail() {
+          uni.showToast({
+            title: "网络连接错误",
+            icon: "success",
+            duration: 1000 });
+
+        } });
+
+
+
     },
     deduct: function deduct(e) {
-      console.log(this.classes[this.classIndex].classId);
-      console.log(this.department[this.depIndex].depId);
-      console.log(e);
+      // console.log(this.classes[this.classIndex].depSecendId);
+      // console.log(this.department[this.depIndex].id);
+      // console.log(e);
+      if (this.checkName == null || this.checkName == "") {
+        uni.showToast({
+          title: "请填写稽查人",
+          duration: 1000 });
+
+        return false;
+      }
+      if (this.classIndex == -1) {
+        uni.showToast({
+          title: "请选择班别",
+          duration: 1000 });
+
+        return false;
+      }
       this.score = this.checkItems[e].score;
       this.item = this.checkItems[e].item;
       this.index = e;
       this.show = true;
       console.log(this.item);
+
     },
     camera: function camera() {
       this.showImageList = true;
@@ -330,47 +516,36 @@ var _default =
         sourceType: ['camera', 'album'], //从相册选择 
         success: function success(res) {
           // this.images = res.tempFilePaths;
+          var filePaths = res.tempFilePaths;
+          for (var i = 0; i < filePaths.length; i++) {
+            uni.saveFile({
+              tempFilePath: filePaths[i],
+              success: function success(res) {
+                _this.images.push(res.savedFilePath);
+                console.log(res.savedFilePath);
+              } });
 
-          for (var i = 0; i < res.tempFilePaths.length; i++) {
-            _this.images.push(res.tempFilePaths[i]);
           }
-          console.log(_this.images);
+
           // console.log(this.images.length);
         } });
 
+      console.log(_this.images);
 
     },
-    selectedImage: function selectedImage(e) {
+    selectedImage: function selectedImage(index) {
       var that = this;
-      if (this.touchE - this.touchT < 350) {
-        uni.previewImage({
-          urls: that.images,
-          current: that.images[e] });
+      // console.log(this.touchE - this.touchT);
+      // if (this.touchE - this.touchT < 350) {
+      uni.previewImage({
+        urls: that.images,
+        current: that.images[index] });
 
-      }
-    }, touchstart: function touchstart(index) {
-      this.touchT = new Date().getTime();
-
-      var that = this;
-      clearInterval(this.Loop); //再次清空定时器，防止重复注册定时器
-      this.Loop = setTimeout(function () {
-        uni.showModal({
-          title: '删除',
-          content: '请问要删除本张图片吗？',
-          success: function () {var _success = _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee(res) {return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
-                      if (res.confirm) {
-                        that.images.splice(index, 1);
-
-                      } else if (res.cancel) {
-                        console.log('用户点击取消');
-                      }case 1:case "end":return _context.stop();}}}, _callee);}));function success(_x) {return _success.apply(this, arguments);}return success;}() });
-
-
-      }.bind(this), 600);
+      // }
     },
-    touchend: function touchend() {
-      clearInterval(this.Loop);
-      this.touchE = new Date().getTime();
+    delImg: function delImg(index) {
+      console.log(index);
+      this.images.splice(index, 1);
     },
     cancel: function cancel() {
       this.show = false;
@@ -381,8 +556,133 @@ var _default =
       this.images = [];
     },
     save: function save() {
-      this.checkItems[this.index].score = this.score - this.minusScore;
-      this.show = false;
+      var that = this;
+      var checkName = this.checkName;
+      var minusScore = this.minusScore;
+      var reason = this.reason;
+
+      if (checkName == null || checkName == "") {
+        uni.showToast({
+          title: "请填写稽查人名称",
+          duration: 1000 });
+
+        return false;
+      } else if (minusScore == "" || minusScore == null) {
+        uni.showToast({
+          title: "请填写扣除分数",
+          duration: 1000 });
+
+        return false;
+      } else if (minusScore > that.score) {
+        uni.showToast({
+          title: "分数不合理",
+          duration: 1000 });
+
+        return false;
+      } else if ((reason == null || reason == "") && minusScore != 0) {
+        uni.showToast({
+          title: "请填写原因",
+          duration: 1000 });
+
+        return false;
+      } else {
+        var imgs = [];
+        var num = 0;
+
+        for (var i = 0; i < this.images.length; i++) {
+          imgs.push({
+            name: 'file' + i,
+            uri: this.images[i] });
+
+        }
+
+        if (this.images.length <= 0) {
+          imgs.push({
+            name: '',
+            uri: '' });
+
+          num = 0;
+        } else {
+          num = imgs.length;
+        }
+        console.log(imgs);
+        // uni.uploadFile({
+        // 	files:imgs,
+        // 	// filePath:that.images[0],
+        // 	// name: 'file',
+        // 	url:that.url+"/addDeduct",
+        // 	formData:{
+        // 		minusScore:that.minusScore,
+        // 		name:that.checkName,
+        // 		reason:that.reason,
+        // 		itemId:that.checkItems[that.index].id,
+        // 		num:num
+        // 	},
+        // 	success:function(res){
+        // 		console.log(res);
+        // 		if(res.statusCode===200){
+        // 			uni.showToast({
+        // 				title:"保存成功",
+        // 				icon:"success",
+        // 				duration:1000
+        // 			})
+        // 		}else{
+        // 			uni.showToast({
+        // 				title:"发生错误",
+        // 				icon:"success",
+        // 				duration:1000
+        // 			})
+        // 		}
+
+        // 	},
+        // 	fail: () => {
+        // 		uni.showToast({
+        // 			title:"连接错误",
+        // 			icon:"success",
+        // 			duration:1000
+        // 		})	
+        // 	}
+
+        // })
+        console.log(that.classIndex);
+        var depSecendName = "";
+        if (that.classIndex == -2) {
+          depSecendName = "";
+        } else {
+          depSecendName = that.classes[that.classIndex].depSecendName;
+        }
+
+        that.datas.push({
+          imgs: imgs,
+          checked: false,
+          check: {
+            item: that.item,
+            depSecendName: depSecendName,
+            score: that.score,
+            depName: that.department[that.depIndex].depName },
+
+          formData: {
+            minusScore: that.minusScore,
+            name: that.checkName,
+            reason: that.reason,
+            itemId: that.checkItems[that.index].id,
+            num: num } });
+
+
+        uni.setStorage({
+          "key": "check",
+          "data": that.datas });
+
+        console.log(that.datas);
+
+        this.checkItems[this.index].score = this.score - this.minusScore;
+        this.show = false;
+        this.item = null;
+        this.score = null;
+        this.minusScore = null;
+        this.reason = null;
+        this.images = [];
+      }
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

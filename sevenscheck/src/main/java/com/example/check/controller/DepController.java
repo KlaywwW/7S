@@ -30,10 +30,17 @@ public class DepController {
 
     private String fileRootPath = "D:\\7Sdata\\7Simages\\";
 
-    //    , @RequestParam("file") MultipartFile[] files
+    /**
+     * 添加扣分信息，有图片上传图片
+     * @param deduct 扣分信息
+     * @param request 请求
+     * @param num 图片个数
+     * @return
+     */
     @PostMapping("/addDeduct")
     public String addDeduct(Deduct deduct, MultipartRequest request, Integer num) {
-        System.err.println(num);
+
+
         List<MultipartFile> files = new ArrayList<MultipartFile>();
         for (int i = 0; i < num; i++) {
             System.err.println("文件名："+request.getFile("file" + i).getOriginalFilename() + "=============================");
@@ -42,9 +49,8 @@ public class DepController {
 
         System.out.println(String.valueOf((new Date().getTime())));
         deduct.setTime(String.valueOf((new Date().getTime())));
-        System.out.println(deduct.toString());
+//        保存扣分信息
         int res = checkService.addDeduct(deduct);
-//
         int imgres = 0;
         String filePath = "";
         // 多文件上传
@@ -70,7 +76,7 @@ public class DepController {
                             .append(filename)
                             .toString();
                     try {
-//                 保存文件
+                    // 保存文件
 
 
                         file.transferTo(new File(filePath));
@@ -79,7 +85,7 @@ public class DepController {
                         imagelist.setImgName(mi+"-"+filename);
                         imagelist.setImgPath(filePath);
                         imagelist.setDeductId(checkService.getNewId());
-
+                    //  保存图片路径
                         int result = checkService.addImages(imagelist);
                         if (result == 1) {
                             imgres++;
@@ -103,18 +109,33 @@ public class DepController {
         return "failed";
     }
 
+    /**
+     * 部门id+班别id查询点检项目
+     * @param depId 部门id
+     * @param depSecendId 班别id
+     * @return
+     */
     @GetMapping("/getCheckItems")
     public List<Checkitems> getAllitems(@RequestParam Integer depId, @RequestParam Integer depSecendId) {
         List<Checkitems> items = checkService.getAllItems(depId, depSecendId);
         return items;
     }
 
+    /**
+     * 查询所有部门
+     * @return
+     */
     @GetMapping("/getDep")
     public List<Department> getDep() {
 
         return departmentService.getAllDep();
     }
 
+    /**
+     * 根据部门id查询该部门下对应的班别
+     * @param depId 部门id
+     * @return
+     */
     @GetMapping("/getSecend")
     public List<DepSecend> getSecend(@RequestParam Integer depId) {
         return departmentService.getDepSecend(depId);

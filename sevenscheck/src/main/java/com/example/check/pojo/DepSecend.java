@@ -9,12 +9,27 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+/**
+ * 班别
+ */
 public class DepSecend {
 
+    /**
+     * 主键
+     */
     private Integer id;
+
+    /**
+     * 班别id
+     */
     private Integer depSecendId;
+    /**
+     * 班别名称
+     */
     private String depSecendName;
+    /**
+     * 所属部门id
+     */
     private Integer depId;
-    private String responsibility;
 
 }

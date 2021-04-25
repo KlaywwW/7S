@@ -149,6 +149,7 @@ export default {
         };
     },
     methods: {
+        // 修改扣分分数
         updateDeduct(val) {
             if (val == null) {
                 return true;
@@ -156,6 +157,7 @@ export default {
             this.dialogFormVisible = true;
             this.deduct = val;
         },
+        // 确认
         sure() {
             let that = this;
             console.log(this.deduct);
@@ -165,10 +167,12 @@ export default {
                 that.dialogFormVisible = false;
             });
         },
+        // 取消
         cancel() {
             this.dialogFormVisible = false;
             this.deduct = {};
         },
+        // 删除扣分
         delDeduct(val) {
             let that = this;
             this.$confirm('是否确认完成?', '提示', {
@@ -204,6 +208,7 @@ export default {
                 }
             }
         },
+        // 查询部门
         selectDep() {
             let that = this;
             this.axios.get('api/getSecend?depId=' + this.depId).then((res) => {
@@ -217,6 +222,7 @@ export default {
                 }
             });
         },
+        // 查询点检项
         selectItems() {
             if (this.depId == 0 || this.depId == '') {
                 this.$message({
@@ -251,6 +257,7 @@ export default {
                     this.$message('服务器发生错误');
                 });
         },
+        // 输出excel
         outExcel() {
             this.exportDis = true;
             this.exportLoading = true;
